@@ -1,0 +1,29 @@
+{
+  "name": "tatva-landing-page",
+  "version": "1.0.0",
+  "description": "Tatva by Tradeprop - Luxury Living Redefined. Premium landing page for luxury residential property.",
+  "main": "index.html",
+  "scripts": {
+    "start": "python -m http.server 8000",
+    "dev": "python -m http.server 8000",
+    "build": "echo 'No build step required for static site'",
+    "test": "echo 'No tests configured'"
+  },
+  "keywords": [
+    "luxury",
+    "real-estate",
+    "properties",
+    "tatva",
+    "tradeprop",
+    "landing-page"
+  ],
+  "author": "Tatva by Tradeprop",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Vpcodes11/Landing-Page.git"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}
