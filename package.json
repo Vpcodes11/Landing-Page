@@ -24,7 +24,7 @@
     "url": "https://github.com/Vpcodes11/Landing-Page.git"
   },
   "engines": {
-    "node": ">=14.0.0"
+    "node": "22.x"
   },
   "dependencies": {
     "@vercel/analytics": "^2.0.1"
