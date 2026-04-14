@@ -23,6 +23,7 @@ function initializeApp() {
     initAmenitiesTabs();
     initAmenityScrollShowcase();
     initGalleryFilters();
+    initClubResort();
     initContactForm();
     initFloatingActions();
     initScrollEffects();
@@ -30,7 +31,9 @@ function initializeApp() {
     initResponsiveFeatures();
     initTitleSparkle();
     initVisualJourneyCinematics();
+    initVisualHub();
     initStackedCardsAutoRotate();
+    normalizePageContent();
 }
 
 // Recompute floating layout on resize (debounced), bind only once
@@ -73,7 +76,7 @@ function initVisualJourneyCinematics() {
     gallery.addEventListener('pointerleave', onPointerLeave);
 
     // Parallax tilt on gallery pieces if they exist
-    const pieces = gallery.querySelectorAll('.gallery-piece .piece-image');
+    const pieces = gallery.querySelectorAll('.gallery-piece .piece-image, .visual-hub .video-frame');
     pieces.forEach(piece => {
         piece.addEventListener('mousemove', (e) => {
             const r = piece.getBoundingClientRect();
@@ -371,6 +374,16 @@ function initCounterAnimations() {
 function initAmenitiesTabs() {
     const amenityTabs = document.querySelectorAll('.nav-item');
     const amenityContents = document.querySelectorAll('.showcase-content');
+    const amenityCards = document.querySelectorAll('.amenity-card');
+
+    if (amenityTabs.length === 0 || amenityContents.length === 0) {
+        amenityCards.forEach(card => {
+            card.addEventListener('click', () => {
+                openGalleryLightbox(card);
+            });
+        });
+        return;
+    }
     
     amenityTabs.forEach(tab => {
         tab.addEventListener('click', () => {
@@ -484,6 +497,12 @@ function initGalleryFilters() {
     const galleryItems = document.querySelectorAll('.gallery-piece');
     const featuredItem = document.querySelector('.gallery-featured');
     const onlyVideoLayout = document.querySelector('.gallery-showcase.only-video');
+    const videoFrame = document.querySelector('.visual-hub .video-frame');
+
+    if (galleryItems.length === 0 && !featuredItem && videoFrame) {
+        videoFrame.addEventListener('click', openVideoFullscreen);
+        return;
+    }
     
     // If only video layout, hide filters and grid behavior entirely
     if (onlyVideoLayout) {
@@ -601,7 +620,7 @@ function playVideo() {
 }
 
 function openVideoFullscreen() {
-    const videoContainer = document.querySelector('.video-container iframe');
+    const videoContainer = document.querySelector('.visual-hub .video-frame iframe') || document.querySelector('.video-container iframe');
     if (videoContainer) {
         // Request fullscreen for the video container
         if (videoContainer.requestFullscreen) {
@@ -677,14 +696,28 @@ function handleFormSubmission(e) {
     
     const formData = new FormData(e.target);
     const submitButton = e.target.querySelector('.form-submit');
+    const details = [
+        `Name: ${formData.get('fullName') || ''}`,
+        `Phone: ${formData.get('phoneNumber') || ''}`,
+        `Email: ${formData.get('emailAddress') || ''}`,
+        `Property Interest: ${formData.get('propertyInterest') || 'Not specified'}`,
+        `Investment Budget: ${formData.get('investmentBudget') || 'Not specified'}`,
+        `Message: ${formData.get('message') || 'No additional message'}`
+    ];
+    const whatsappMessage = encodeURIComponent(`Tatva website enquiry\n\n${details.join('\n')}`);
+    const enquiryWindow = window.open('about:blank', '_blank');
     
     // Show loading state
     submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> SUBMITTING...';
     submitButton.disabled = true;
     
-    // Simulate form submission
     setTimeout(() => {
-        showFormSuccessMessage();
+        if (enquiryWindow) {
+            enquiryWindow.location.href = `https://wa.me/919099662234?text=${whatsappMessage}`;
+        } else {
+            window.location.href = `https://wa.me/919099662234?text=${whatsappMessage}`;
+        }
+        showFormSuccessMessage(formData.get('fullName'));
         e.target.reset();
         
         // Reset button state
@@ -693,14 +726,14 @@ function handleFormSubmission(e) {
     }, 2000);
 }
 
-function showFormSuccessMessage() {
+function showFormSuccessMessage(name) {
     const message = document.createElement('div');
     message.className = 'form-success-message';
     message.innerHTML = `
         <div class="success-content">
             <i class="fas fa-check-circle"></i>
-            <h4>Thank You!</h4>
-            <p>Your consultation request has been submitted. We'll contact you within 24 hours.</p>
+            <h4>Request Ready</h4>
+            <p>${name ? `${name}, your enquiry has been sent to WhatsApp.` : 'Your enquiry has been sent to WhatsApp.'} Our team will follow up shortly.</p>
         </div>
     `;
     
@@ -939,12 +972,13 @@ window.addEventListener('error', function(e) {
 
 // ===== CONTACT METHODS =====
 function initContactMethods() {
-    const contactMethods = document.querySelectorAll('.contact-method');
+    const contactMethods = document.querySelectorAll('.method-card');
     
     contactMethods.forEach(method => {
         method.addEventListener('click', () => {
-            const icon = method.querySelector('i');
-            
+            const card = method.closest('.method-card') || method;
+            const icon = card.querySelector('i');
+             
             if (icon.classList.contains('fa-phone')) {
                 window.open('tel:+919099662234', '_self');
             } else if (icon.classList.contains('fa-envelope')) {
@@ -1170,6 +1204,51 @@ function initVisualHub() {
     }
 }
 
+function normalizePageContent() {
+    const replacements = [
+        ['â‚¹', '₹'],
+        ['â€¢', '•']
+    ];
+
+    const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+    const textNodes = [];
+
+    while (walker.nextNode()) {
+        textNodes.push(walker.currentNode);
+    }
+
+    textNodes.forEach(node => {
+        let content = node.nodeValue;
+        replacements.forEach(([from, to]) => {
+            if (content.includes(from)) {
+                content = content.replaceAll(from, to);
+            }
+        });
+        node.nodeValue = content;
+    });
+
+    const propertyInterest = document.getElementById('propertyInterest');
+    if (propertyInterest) {
+        propertyInterest.options[1].value = 'Premium Plots (₹11 Lakhs)';
+        propertyInterest.options[1].text = 'Premium Plots (₹11L)';
+        propertyInterest.options[2].value = 'Signature Villas (₹35 Lakhs)';
+        propertyInterest.options[2].text = 'Signature Villas (₹35L)';
+        propertyInterest.options[3].value = 'All Properties';
+    }
+
+    const investmentBudget = document.getElementById('investmentBudget');
+    if (investmentBudget) {
+        const budgets = ['₹10-20 Lakhs', '₹20-35 Lakhs', '₹35-50 Lakhs', '₹50 Lakhs+'];
+        budgets.forEach((budget, index) => {
+            const option = investmentBudget.options[index + 1];
+            if (option) {
+                option.value = budget;
+                option.text = budget;
+            }
+        });
+    }
+}
+
 // ===== PERFORMANCE OPTIMIZATION =====
 // Debounce function for scroll events
 function debounce(func, wait) {
@@ -1309,13 +1388,6 @@ function showFeatureModal(featureTitle) {
         modal.remove();
     });
 }
-
-// Initialize club resort functionality
-document.addEventListener('DOMContentLoaded', function() {
-    setTimeout(() => {
-        initClubResort();
-    }, 100);
-});
 
 // ===== FINAL INITIALIZATION =====
 console.log('Tatva Premium Script Loaded Successfully ✨');
