@@ -34,15 +34,6 @@ function initializeApp() {
 }
 
 // Recompute floating layout on resize (debounced), bind only once
-if (!window.__visualHubResizeBound) {
-    const hasCluster = document.querySelector('.visual-hub .floating-cluster');
-    if (hasCluster) {
-        window.addEventListener('resize', debounce(() => {
-            setTimeout(() => initVisualHub(), 50);
-        }, 200));
-        window.__visualHubResizeBound = true;
-    }
-}
 
 // ===== VISUAL JOURNEY - Cinematic Interactions =====
 function initVisualJourneyCinematics() {
@@ -96,7 +87,8 @@ function initVisualJourneyCinematics() {
         const track = document.createElement('div');
         track.className = 'filmstrip-track';
 
-        const sources = Array.from({ length: 15 }, (_, i) => `./images/${i + 1}.jpg`);
+        // Images were moved into a subfolder; encode the space for URL safety.
+        const sources = Array.from({ length: 15 }, (_, i) => `./images/Resort%20Images/${i + 1}.jpg`);
         const loopSources = [...sources, ...sources];
         loopSources.forEach(src => {
             const item = document.createElement('div');
@@ -1027,153 +1019,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }, 100);
 });
 
-// ===== VISUAL HUB (Video + Floating Images) =====
-function initVisualHub() {
-    const cluster = document.querySelector('.visual-hub .floating-cluster');
-    if (!cluster) return;
-
-    // Clear any existing items (in case of re-init)
-    cluster.innerHTML = '';
-
-    // Build 15 floating items from ./images/1.jpg ... ./images/15.jpg
-    const total = 15;
-    const shapes = ['shape-circle', 'shape-soft', 'shape-squircle', 'shape-diamond', 'shape-hex', 'shape-triangle', 'shape-blob'];
-    const rand = (min, max) => Math.random() * (max - min) + min;
-
-    // Layout measurements to avoid overlapping the video frame
-    const hub = document.querySelector('.visual-hub');
-    const videoFrame = document.querySelector('.visual-hub .video-frame');
-    if (!hub || !videoFrame) return;
-    const hubRect = hub.getBoundingClientRect();
-    const vfRect = videoFrame.getBoundingClientRect();
-    // Convert video frame rect to hub-local coordinates
-    const vf = {
-        left: vfRect.left - hubRect.left,
-        top: vfRect.top - hubRect.top,
-        right: vfRect.right - hubRect.left,
-        bottom: vfRect.bottom - hubRect.top,
-        width: vfRect.width,
-        height: vfRect.height
-    };
-
-    // Helper: check if a circle intersects the video frame plus margin
-    const circleIntersectsRect = (cx, cy, r, rect, margin) => {
-        const m = margin || 20;
-        const rx1 = rect.left - m;
-        const ry1 = rect.top - m;
-        const rx2 = rect.right + m;
-        const ry2 = rect.bottom + m;
-        // Find closest point on rect to circle center
-        const closestX = Math.max(rx1, Math.min(cx, rx2));
-        const closestY = Math.max(ry1, Math.min(cy, ry2));
-        const dx = cx - closestX;
-        const dy = cy - closestY;
-        return (dx * dx + dy * dy) < (r * r);
-    };
-
-    const placed = [];
-    for (let i = 1; i <= total; i++) {
-        const item = document.createElement('div');
-        const shapeClass = shapes[i % shapes.length];
-        item.className = `float-item ${shapeClass}`;
-
-        // Random size (smaller near mobile sizes)
-        const vw = Math.max(320, window.innerWidth);
-        const vh = Math.max(480, window.innerHeight);
-        const minSize = vw < 768 ? 72 : 90;
-        const maxSize = vw < 768 ? 120 : 160;
-        const size = Math.round(rand(minSize, maxSize));
-
-        // Random motion deltas and animation timing
-        const dx = Math.round(rand(-20, 20));
-        const dy = Math.round(rand(-24, 16));
-        const drot = rand(-4, 6).toFixed(2);
-        const dur = (rand(8, 16)).toFixed(2) + 's';
-        const delay = (rand(-2, 3)).toFixed(2) + 's';
-
-        // Rotation base
-        const rot = rand(-8, 10).toFixed(2) + 'deg';
-
-        // Find a position that does not intersect the video frame and not overlap others
-        let attempts = 0;
-        let x = 0, y = 0;
-        const radiusMargin = Math.max(18, size * 0.6); // buffer to keep away from frame
-        const minGap = Math.max(12, size * 0.35);      // minimum gap between items
-        while (attempts < 120) {
-            // Uniformly sample across hub (with 6% padding inside edges)
-            const padX = hubRect.width * 0.06;
-            const padY = hubRect.height * 0.06;
-            x = rand(padX, hubRect.width - padX);
-            y = rand(padY, hubRect.height - padY);
-            // Reject if collides with video frame
-            if (circleIntersectsRect(x, y, radiusMargin, vf, 36)) {
-                attempts++; continue;
-            }
-            // Reject if overlaps previously placed items
-            let overlaps = false;
-            for (const p of placed) {
-                const dxp = x - p.x;
-                const dyp = y - p.y;
-                const dist2 = dxp * dxp + dyp * dyp;
-                const req = (p.r + radiusMargin) + minGap * 0.5;
-                if (dist2 < req * req) { overlaps = true; break; }
-            }
-            if (!overlaps) break;
-            attempts++;
-        }
-
-        // Fallback: if still intersecting, push outside by moving away from frame center
-        if (circleIntersectsRect(x, y, radiusMargin, vf, 28)) {
-            const vfx = vf.left + vf.width / 2;
-            const vfy = vf.top + vf.height / 2;
-            const vx = x - vfx;
-            const vy = y - vfy;
-            const len = Math.max(1, Math.hypot(vx, vy));
-            const scale = (Math.max(vf.width, vf.height) * 0.75 + radiusMargin) / len;
-            x = vfx + vx * scale;
-            y = vfy + vy * scale;
-        }
-
-        // Bound within hub
-        x = Math.max(size / 2, Math.min(hubRect.width - size / 2, x));
-        y = Math.max(size / 2, Math.min(hubRect.height - size / 2, y));
-
-        // Convert back to % for responsive positioning
-        const centerX = (x / hubRect.width) * 100;
-        const centerY = (y / hubRect.height) * 100;
-
-        // Apply CSS vars and absolute position in percent space
-        item.style.left = centerX + '%';
-        item.style.top = centerY + '%';
-        item.style.setProperty('--x', '0');
-        item.style.setProperty('--y', '0');
-        item.style.setProperty('--dx', dx + 'px');
-        item.style.setProperty('--dy', dy + 'px');
-        item.style.setProperty('--rot', rot);
-        item.style.setProperty('--drot', drot + 'deg');
-        item.style.setProperty('--dur', dur);
-        item.style.setProperty('--delay', delay);
-        item.style.width = size + 'px';
-        item.style.height = size + 'px';
-
-        const img = document.createElement('img');
-        img.src = `./images/${i}.jpg`;
-        img.alt = `Visual ${i}`;
-        img.loading = 'lazy';
-
-        // Tone variations to stand out from background
-        const bright = (rand(0.92, 1.06)).toFixed(2);
-        const sat = (rand(0.9, 1.15)).toFixed(2);
-        item.style.setProperty('--bright', bright);
-        item.style.setProperty('--sat', sat);
-
-        item.appendChild(img);
-        cluster.appendChild(item);
-
-        // Remember placement (store effective radius ~ size/2)
-        placed.push({ x, y, r: radiusMargin });
-    }
-}
 
 // ===== PERFORMANCE OPTIMIZATION =====
 // Debounce function for scroll events

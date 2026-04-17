@@ -131,7 +131,10 @@ npm test       # Test script placeholder
 
 1. **CSS**: All styles are organized with comments and sections
 2. **JavaScript**: Functions are well-commented and organized by feature
-3. **Images**: Store all images in `images/` folder with descriptive names
+3. **Images**: Keep assets under `images/` and grouped by folder:
+   - `images/logo.png`
+   - `images/Resort Images/` (resort photos)
+   - `images/Villa Images/` (villa images)
 
 ## 🐛 Error Fixes Implemented
 

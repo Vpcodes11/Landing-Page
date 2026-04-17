@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8544265950892925"
+        crossorigin="anonymous"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tatva by Tradeprop - Properties</title>
+
+    <!-- Tab / Title bar icon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="./images/logo%20with%20bg.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="./images/logo%20with%20bg.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="./images/logo%20with%20bg.png">
+    <meta name="theme-color" content="#000000">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&family=Montserrat:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+</head>
+
+<body>
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-content">
+            <div class="golden-logo">
+                <div class="logo-icon"><img src="./images/logo.png" alt="Tatva Logo" class="logo-img"></div>
+            </div>
+            <div class="loading-text">TATVA</div>
+            <div class="loading-subtitle">BY TRADEPROP</div>
+            <div class="loading-bar">
+                <div class="loading-progress"></div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Premium Navigation -->
+    <div data-include="partials/nav.html"></div>
+
+
+    <!-- Luxury Property Collection -->
+    <section id="properties" class="luxury-properties">
+        <div class="container">
+            <div class="section-intro" data-aos="fade-up">
+                <div class="intro-badge">EXCLUSIVE COLLECTION</div>
+                <h2 class="section-title text-reveal">
+                    <span class="golden-text typography-hover">Curated Properties</span>
+                </h2>
+                <p class="section-subtitle text-fade-in">
+                    Each property in our collection represents the epitome of luxury living,
+                    carefully designed for those who appreciate the finer things in life.
+                </p>
+            </div>
+
+            <div class="properties-showcase" data-module="properties"></div>
+        </div>
+    </section>
+    <!-- Luxury Footer -->
+    <div data-include="partials/footer.html"></div>
+
+
+
+    <!-- Scripts -->    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="js/includes.js"></script>
+    <script src="js/modules.js"></script>
+    <script src="js/script.js"></script>
+    <script src="js/bootstrap.js"></script>
+    <script type="module">
+        import('https://cdn.jsdelivr.net/npm/@vercel/analytics/dist/index.mjs')
+            .then(({ inject }) => inject({ mode: 'auto' }))
+            .catch(() => { /* analytics optional */ });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,54 @@
+{
+  "properties": [
+    {
+      "key": "premium-plots",
+      "title": "Premium Plots",
+      "image": "./images/Resort%20Images/5.jpg",
+      "imageAlt": "Premium Plots",
+      "badgeText": "MOST COVETED",
+      "badgeClass": "",
+      "description": "Meticulously planned residential plots with modern infrastructure and exclusive amenities.",
+      "features": [
+        { "icon": "fas fa-ruler-combined", "text": "1000-2500 Sq.ft" },
+        { "icon": "fas fa-road", "text": "60ft Wide Roads" },
+        { "icon": "fas fa-shield-alt", "text": "RERA Approved" }
+      ],
+      "priceMain": "₹11 Lakhs",
+      "priceNote": "onwards • All inclusive",
+      "aosDelay": 200
+    },
+    {
+      "key": "signature-villas",
+      "title": "Signature Villas",
+      "image": "./images/Resort%20Images/8.jpg",
+      "imageAlt": "Luxury Villas",
+      "badgeText": "ULTRA LUXURY",
+      "badgeClass": "luxury",
+      "description": "Architectural masterpieces with contemporary design and premium finishes throughout.",
+      "features": [
+        { "icon": "fas fa-home", "text": "3-4 BHK Villas" },
+        { "icon": "fas fa-car", "text": "Private Parking" },
+        { "icon": "fas fa-seedling", "text": "Private Gardens" }
+      ],
+      "priceMain": "₹35 Lakhs",
+      "priceNote": "onwards • Move-in ready",
+      "aosDelay": 400
+    }
+  ],
+  "gallery": {
+    "filters": [
+      { "key": "all", "label": "All", "icon": "fas fa-th" },
+      { "key": "plots", "label": "Plots", "icon": "fas fa-map" },
+      { "key": "villas", "label": "Villas", "icon": "fas fa-home" },
+      { "key": "lifestyle", "label": "Lifestyle", "icon": "fas fa-spa" }
+    ],
+    "items": [
+      { "key": "gallery-1", "category": "plots", "title": "Plot Masterplan", "subtitle": "Premium plots layout", "image": "./images/Resort%20Images/2.jpg", "imageAlt": "Plot Masterplan" },
+      { "key": "gallery-2", "category": "plots", "title": "Wide Roads", "subtitle": "60ft roads & infrastructure", "image": "./images/Resort%20Images/1.jpg", "imageAlt": "Wide Roads" },
+      { "key": "gallery-3", "category": "villas", "title": "Signature Villas", "subtitle": "Ultra luxury living", "image": "./images/Resort%20Images/8.jpg", "imageAlt": "Signature Villas" },
+      { "key": "gallery-4", "category": "villas", "title": "Premium Finishes", "subtitle": "Designed for comfort", "image": "./images/Resort%20Images/11.jpg", "imageAlt": "Premium Finishes" },
+      { "key": "gallery-5", "category": "lifestyle", "title": "Clubhouse Moments", "subtitle": "Social & leisure hub", "image": "./images/Resort%20Images/3.jpg", "imageAlt": "Clubhouse Moments" },
+      { "key": "gallery-6", "category": "lifestyle", "title": "Nature Living", "subtitle": "Green open spaces", "image": "./images/Resort%20Images/6.jpg", "imageAlt": "Nature Living" }
+    ]
+  }
+}
