@@ -3,7 +3,7 @@
     {
       "key": "premium-plots",
       "title": "Premium Plots",
-      "image": "./images/Resort%20Images/5.jpg",
+      "image": "./images/Plot%20Images/Buy%20the%20Perfect%20Residential%20Plot%20and%20Secure%20Your%20Investment.jpg",
       "imageAlt": "Premium Plots",
       "badgeText": "MOST COVETED",
       "badgeClass": "",
@@ -20,7 +20,7 @@
     {
       "key": "signature-villas",
       "title": "Signature Villas",
-      "image": "./images/Resort%20Images/8.jpg",
+      "image": "./images/Villa%20Images/Modern%20villas%20with%20turquoise%20pools.png",
       "imageAlt": "Luxury Villas",
       "badgeText": "ULTRA LUXURY",
       "badgeClass": "luxury",
@@ -40,15 +40,23 @@
       { "key": "all", "label": "All", "icon": "fas fa-th" },
       { "key": "plots", "label": "Plots", "icon": "fas fa-map" },
       { "key": "villas", "label": "Villas", "icon": "fas fa-home" },
-      { "key": "lifestyle", "label": "Lifestyle", "icon": "fas fa-spa" }
+      { "key": "resort", "label": "Club Resort", "icon": "fas fa-spa" }
     ],
     "items": [
-      { "key": "gallery-1", "category": "plots", "title": "Plot Masterplan", "subtitle": "Premium plots layout", "image": "./images/Resort%20Images/2.jpg", "imageAlt": "Plot Masterplan" },
-      { "key": "gallery-2", "category": "plots", "title": "Wide Roads", "subtitle": "60ft roads & infrastructure", "image": "./images/Resort%20Images/1.jpg", "imageAlt": "Wide Roads" },
-      { "key": "gallery-3", "category": "villas", "title": "Signature Villas", "subtitle": "Ultra luxury living", "image": "./images/Resort%20Images/8.jpg", "imageAlt": "Signature Villas" },
-      { "key": "gallery-4", "category": "villas", "title": "Premium Finishes", "subtitle": "Designed for comfort", "image": "./images/Resort%20Images/11.jpg", "imageAlt": "Premium Finishes" },
-      { "key": "gallery-5", "category": "lifestyle", "title": "Clubhouse Moments", "subtitle": "Social & leisure hub", "image": "./images/Resort%20Images/3.jpg", "imageAlt": "Clubhouse Moments" },
-      { "key": "gallery-6", "category": "lifestyle", "title": "Nature Living", "subtitle": "Green open spaces", "image": "./images/Resort%20Images/6.jpg", "imageAlt": "Nature Living" }
+      { "key": "v-1", "category": "villas", "title": "Signature Villa", "subtitle": "Modern architectural design", "image": "./images/Villa%20Images/1.png", "imageAlt": "Signature Villa Front View" },
+      { "key": "v-2", "category": "villas", "title": "Turquoise Poolside", "subtitle": "Luxury outdoor living", "image": "./images/Villa%20Images/Modern%20villas%20with%20turquoise%20pools.png", "imageAlt": "Villa Pool" },
+      { "key": "v-3", "category": "villas", "title": "Premium Entry", "subtitle": "Elegant villa entrance", "image": "./images/Villa%20Images/2.png", "imageAlt": "Villa Entry" },
+      
+      { "key": "p-1", "category": "plots", "title": "Residential Plots", "subtitle": "Secure investment opportunity", "image": "./images/Plot%20Images/Buy%20the%20Perfect%20Residential%20Plot%20and%20Secure%20Your%20Investment.jpg", "imageAlt": "Plot Layout" },
+      { "key": "p-2", "category": "plots", "title": "Scenic Plots", "subtitle": "Nal Sarovar surroundings", "image": "./images/Plot%20Images/Open%20Plots%20for%20Sale%20in%20Shadnagar%20_%20Villa%20Plots%20_%20Sapta%20Varna.jpg", "imageAlt": "Scenic Plots" },
+      { "key": "p-3", "category": "plots", "title": "Plot Infrastructure", "subtitle": "Meticulously planned", "image": "./images/Plot%20Images/download%20(15).jpg", "imageAlt": "Plot Aerial" },
+
+      { "key": "r-1", "category": "resort", "title": "The Grand Entrance", "subtitle": "World-class resort experience", "image": "./images/Resort%20Images/1.jpg", "imageAlt": "Resort Entrance" },
+      { "key": "r-2", "category": "resort", "title": "Luxury Lounge", "subtitle": "Premium club amenities", "image": "./images/Resort%20Images/3.jpg", "imageAlt": "Resort Lounge" },
+      { "key": "r-3", "category": "resort", "title": "Evening Ambiance", "subtitle": "Resort lighting & decor", "image": "./images/Resort%20Images/8.jpg", "imageAlt": "Resort Night View" },
+      { "key": "r-4", "category": "resort", "title": "Leisure Hub", "subtitle": "Designed for relaxation", "image": "./images/Resort%20Images/5.jpg", "imageAlt": "Resort Courtyard" },
+      { "key": "r-5", "category": "resort", "title": "Premium Suite", "subtitle": "In-resort accommodation", "image": "./images/Resort%20Images/11.jpg", "imageAlt": "Resort Suite" },
+      { "key": "r-6", "category": "resort", "title": "Main Clubhouse", "subtitle": "The heart of Tatva", "image": "./images/Resort%20Images/2.jpg", "imageAlt": "Clubhouse View" }
     ]
   }
 }

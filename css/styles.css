@@ -1571,7 +1571,7 @@ ol li::before {
 }
 
 .spectacular-hero .section-intro {
-    margin-bottom: 0;
+    margin: 0 auto; /* Ensure centering within flex parent */
     padding: 0;
     border-radius: 0;
     background: transparent;
@@ -1583,35 +1583,34 @@ ol li::before {
 }
 
 .spectacular-hero .intro-badge {
-    background: rgba(212, 175, 55, 0.14);
-    border: 1px solid rgba(212, 175, 55, 0.28);
-    color: rgba(255, 255, 255, 0.92);
+    background: rgba(0, 0, 0, 0.45); /* Darker backdrop for better contrast */
+    border: 1px solid rgba(212, 175, 55, 0.5);
+    color: #ffffff;
+    font-weight: 700;
+    backdrop-filter: blur(4px);
+    padding: 12px 30px;
+    letter-spacing: 0.15em;
 }
 
-.spectacular-hero .section-title {
+.art-hero .section-title {
+    font-size: clamp(3rem, 8vw, 5.5rem) !important;
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    margin-bottom: 20px;
     text-align: center;
-    margin-bottom: 12px;
-    text-shadow:
-        0 2px 0 rgba(0, 0, 0, 0.55),
-        0 10px 28px rgba(0, 0, 0, 0.70),
-        0 18px 46px rgba(0, 0, 0, 0.45);
-    filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.35));
+    text-transform: capitalize;
 }
 
-.spectacular-hero .section-title .golden-text {
+.art-hero .golden-text {
     background: none;
-    -webkit-text-fill-color: var(--pearl-white);
-    color: var(--pearl-white);
-    filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.55));
-}
-
-.spectacular-hero .section-title span {
-    display: inline;
-    margin-bottom: 0;
-}
-
-.spectacular-hero .section-title span+span {
-    margin-left: 0.35em;
+    -webkit-text-fill-color: #ffffff;
+    color: #ffffff;
+    text-shadow: 
+        0 2px 4px rgba(0, 0, 0, 0.5),
+        0 0 15px rgba(212, 175, 55, 0.6),
+        0 0 30px rgba(212, 175, 55, 0.3);
+    display: inline-block;
 }
 
 .spectacular-hero .hero-tagline {
@@ -1652,10 +1651,12 @@ ol li::before {
 }
 
 .hero-topline {
-    letter-spacing: 0.35em;
+    letter-spacing: 0.45em;
     text-transform: uppercase;
-    font-size: var(--text-xs);
-    color: rgba(255, 255, 255, 0.85);
+    font-size: 0.85rem; /* Larger */
+    color: #ffffff;
+    font-weight: 600;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .art-title {
@@ -1668,6 +1669,94 @@ ol li::before {
     --my: 50%;
     /* Default text appearance: simple solid white */
     color: #FFFFFF;
+    text-align: center;
+}
+
+.hero-subtitle {
+    color: #ffffff;
+    letter-spacing: 0.6em;
+    text-transform: uppercase;
+    font-size: 0.95rem; /* Larger */
+    margin: 8px auto 0 auto;
+    text-align: center;
+    width: 100%;
+    font-weight: 600;
+    display: block;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+    opacity: 1; /* Full visibility */
+}
+
+/* Enhanced Brochure Modal */
+.brochure-modal .modal-content {
+    max-width: 450px;
+    background: var(--luxury-cream, #fffdf0) !important;
+    border: 1px solid var(--golden-accent) !important;
+    padding: 60px 45px !important; /* Slightly more spacious */
+    box-shadow: 0 30px 90px rgba(0, 0, 0, 0.25);
+}
+
+.brochure-modal .modal-header-content {
+    text-align: center;
+    margin-bottom: 35px;
+}
+
+.brochure-modal h2 {
+    font-family: var(--font-primary);
+    font-size: 2.2rem;
+    color: #2c241a; /* Deep bronze-black instead of flat black */
+    margin-bottom: 12px;
+    font-weight: 800;
+}
+
+.brochure-modal .sub-text {
+    color: #5a4b3d; /* Elegant taupe/brown for better theme matching */
+    opacity: 1;
+    font-size: 1.05rem;
+    line-height: 1.6;
+    font-weight: 500;
+}
+
+.brochure-modal .form-field label {
+    color: #8b6b4a; /* Rich golden-brown labels */
+    font-weight: 700;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 10px;
+}
+
+.brochure-modal .form-field input {
+    background: white;
+    border: 1.5px solid rgba(139, 107, 74, 0.2);
+    padding: 15px;
+    border-radius: 8px;
+    color: #2c241a;
+}
+
+.brochure-modal .form-field input:focus {
+    border-color: #8b6b4a;
+    box-shadow: 0 0 0 4px rgba(139, 107, 74, 0.1);
+}
+
+.brochure-modal .form-submit {
+    width: 100%;
+    margin-top: 25px;
+    background: linear-gradient(135deg, #2c241a 0%, #1a1510 100%);
+    color: #f4e6a1;
+    border: none;
+    padding: 20px;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    border-radius: 12px;
+}
+
+.form-disclaimer {
+    font-size: 0.8rem;
+    color: #8b6b4a;
+    opacity: 0.7;
+    text-align: center;
+    margin-top: 25px;
+    line-height: 1.5;
 }
 
 .art-title .line {
@@ -1717,28 +1806,32 @@ ol li::before {
 
 .hero-meta {
     display: flex;
-    gap: var(--space-md);
+    gap: 25px;
     align-items: center;
     justify-content: center;
-    opacity: 0.9;
+    margin-top: 30px;
 }
 
 .meta-item {
-    font-size: var(--text-sm);
-    letter-spacing: var(--tracking-wide);
+    font-size: 0.95rem; /* Larger */
+    letter-spacing: 0.05em;
+    color: #ffffff;
+    font-weight: 500;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
 }
 
 .meta-item span {
-    color: var(--primary-gold);
-    font-weight: 700;
-    margin-right: 6px;
+    color: #D4AF37; /* Brighter gold */
+    font-weight: 800;
+    margin-right: 8px;
 }
 
 .meta-divider {
-    width: 10px;
-    height: 10px;
+    width: 6px;
+    height: 6px;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.4);
+    background: #D4AF37;
+    box-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
 }
 
 .luxury-badge {

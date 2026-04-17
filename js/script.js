@@ -328,7 +328,16 @@ function handleHeroCTA(e) {
     } else if (button.classList.contains('primary')) {
         openBookingModal();
     } else if (buttonText.includes('EXPLORE PROPERTIES')) {
-        window.location.href = 'properties.html';
+        const propertiesSection = document.getElementById('properties');
+        if (propertiesSection) {
+            const offsetTop = propertiesSection.offsetTop - 80;
+            window.scrollTo({
+                top: offsetTop,
+                behavior: 'smooth'
+            });
+        } else {
+            window.location.href = 'properties.html';
+        }
     } else {
         playVideoExperience();
     }
@@ -767,7 +776,6 @@ function handleFormSubmission(e) {
                         (currentTime - lastLead.time < 86400000); // 24 hours
 
     if (isDuplicate) {
-        console.warn("Duplicate enquiry detected. Showing success screen but skipping email notify.");
         setTimeout(() => {
             showFormSuccessMessage(data.name, whatsappUrl, form.hasAttribute('data-brochure'));
             form.reset();
@@ -792,7 +800,6 @@ function handleFormSubmission(e) {
     })
     .then(response => {
         if (response.ok) {
-            console.log("Email captured successfully! ✨");
             // Cache this submission to prevent duplicates for 24 hours
             localStorage.setItem('last_tatva_lead', JSON.stringify({
                 name: data.name,
@@ -1028,13 +1035,13 @@ function openBrochureModal() {
     modal.className = 'property-modal brochure-modal';
     modal.innerHTML = `
         <div class="modal-overlay"></div>
-        <div class="modal-content" style="max-width: 450px; background: var(--luxury-cream, #fffdf0); border: 1px solid var(--golden-accent);">
+        <div class="modal-content">
             <button class="modal-close">&times;</button>
             <div class="modal-body">
-                <div class="modal-header-content" style="text-align: center; margin-bottom: 25px;">
+                <div class="modal-header-content">
                     <i class="fas fa-file-download" style="font-size: 3.5rem; color: var(--golden-accent); margin-bottom: 20px; display: block;"></i>
-                    <h2 style="font-family: var(--font-primary); font-size: 1.8rem; color: var(--luxury-black); margin-bottom: 10px;">Download Brochure</h2>
-                    <p style="color: var(--charcoal); opacity: 0.9; font-size: 0.95rem;">Please provide your contact details to start the download instantly.</p>
+                    <h2>Download Brochure</h2>
+                    <p class="sub-text">Please provide your contact details to start the download instantly.</p>
                 </div>
                 <form class="lead-form consultation-form" data-context="Brochure Download" data-brochure="true">
                     <div class="form-field">
@@ -1048,11 +1055,11 @@ function openBrochureModal() {
                     <!-- Hidden field to identify brochure requests -->
                     <input type="hidden" name="requirement" value="Brochure Download">
                     
-                    <button type="submit" class="form-submit" style="width: 100%; margin-top: 15px; background: var(--luxury-black); border-color: var(--luxury-black);">
+                    <button type="submit" class="form-submit">
                         <span>START DOWNLOAD NOW</span>
                         <i class="fas fa-file-download"></i>
                     </button>
-                    <p style="font-size: 0.75rem; color: var(--charcoal); opacity: 0.6; text-align: center; margin-top: 15px;">By clicking, you will receive the brochure via WhatsApp & Email.</p>
+                    <p class="form-disclaimer">By clicking, you will receive the brochure via WhatsApp & Email.</p>
                 </form>
             </div>
         </div>
@@ -1372,13 +1379,12 @@ function handleResortCTA(e) {
     if (buttonText.includes('Book Resort Tour')) {
         openBookingModal();
     } else if (buttonText.includes('View Gallery')) {
-        // Redirect to gallery section
         const gallerySection = document.getElementById('gallery');
         if (gallerySection) {
-            gallerySection.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-            });
+            const offsetTop = gallerySection.offsetTop - 80;
+            window.scrollTo({ top: offsetTop, behavior: 'smooth' });
+        } else {
+            window.location.href = 'gallery.html';
         }
     }
 }
