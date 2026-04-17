@@ -109,6 +109,10 @@
     --gradient-gold-soft: linear-gradient(135deg, #F4E6A1 0%, #D4AF37 100%);
     --gradient-dark: linear-gradient(135deg, #1C1C1C 0%, #2C2C2C 100%);
     --gradient-overlay: linear-gradient(135deg, rgba(28, 28, 28, 0.8) 0%, rgba(212, 175, 55, 0.2) 100%);
+
+    /* Missing Variables - Referenced throughout the codebase */
+    --golden-accent: #D4AF37;
+    --luxury-cream: #fffdf0;
 }
 
 /* ========================
@@ -351,25 +355,7 @@
     box-sizing: border-box;
 }
 
-html {
-    font-size: 16px;
-    scroll-behavior: smooth;
-    /* Keep smooth scroll; per-section offsets handled via scroll-margin */
-}
-
-/* Offset for fixed nav when navigating to the hero section */
-#home {
-    scroll-margin-top: 100px;
-}
-
-body {
-    font-family: var(--font-secondary);
-    line-height: 1.6;
-    color: var(--luxury-black);
-    background-color: var(--pearl-white);
-    overflow-x: hidden;
-}
-
+/* Merged html/body - deduplicated */
 .container {
     max-width: 1400px;
     margin: 0 auto;
@@ -387,6 +373,11 @@ html {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
+}
+
+/* Offset for fixed nav when navigating to the hero section */
+#home {
+    scroll-margin-top: 100px;
 }
 
 body {
