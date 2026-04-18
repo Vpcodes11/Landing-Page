@@ -31,6 +31,7 @@ function initializeApp() {
     initVisualJourneyCinematics();
     // initStackedCardsAutoRotate(); // Function not defined, commented out to prevent crash.
     initAccessibility();
+    initEmailProtection();
 }
 
 // Recompute floating layout on resize (debounced), bind only once
@@ -1424,3 +1425,32 @@ function showFeatureModal(featureTitle) {
 
 // ===== FINAL INITIALIZATION =====
 console.log('Tatva Premium Script Loaded Successfully ✨');
+function initEmailProtection() {
+    const protectedElements = document.querySelectorAll('.email-protect');
+    protectedElements.forEach(el => {
+        const user = el.getAttribute('data-user');
+        const domain = el.getAttribute('data-domain');
+        const subject = el.getAttribute('data-subject');
+        
+        if (user && domain) {
+            const email = `${user}@${domain}`;
+            
+            // If it's a link, update href
+            if (el.tagName === 'A') {
+                let href = `mailto:${email}`;
+                if (subject) href += `?subject=${encodeURIComponent(subject)}`;
+                el.href = href;
+            }
+            
+            // Update text content if it's currently placeholder text
+            if (el.textContent.includes('[at]')) {
+                el.textContent = email;
+            }
+            
+            // Handle hover/click to ensure it's functional
+            el.addEventListener('mouseover', () => {
+                 el.title = `Send email to ${email}`;
+            });
+        }
+    });
+}
