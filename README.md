@@ -161,13 +161,13 @@ MIT License - See LICENSE file for details
 
 - **GitHub**: https://github.com/Vpcodes11/Landing-Page
 - **Property Info**: [Add your property link]
-- **Contact**: tradeprop.info@gmail.com
+- **Contact**: tatvabytradeprop@gmail.com
 - **Phone**: +91 90996 62234
 
 ## 📧 Contact & Support
 
 For issues, suggestions, or inquiries:
-- **Email**: tradeprop.info@gmail.com
+- **Email**: tatvabytradeprop@gmail.com
 - **Phone**: +91 90996 62234
 - **GitHub Issues**: Create an issue in the repository
 

@@ -945,7 +945,7 @@ function initContactMethods() {
             if (icon.classList.contains('fa-phone')) {
                 window.open('tel:+919099662234', '_self');
             } else if (icon.classList.contains('fa-envelope')) {
-                window.open('mailto:tradeprop.info@gmail.com', '_self');
+                window.open('mailto:tatvabytradeprop@gmail.com', '_self');
             } else if (icon.classList.contains('fa-map-marker-alt')) {
                 window.open('https://maps.google.com/?q=Sanand-Nal+Sarovar+Road+Gujarat', '_blank');
             }

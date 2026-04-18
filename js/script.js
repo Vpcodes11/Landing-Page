@@ -789,7 +789,7 @@ function handleFormSubmission(e) {
 
     // 4. Submit to Email (Formspree) & Redirect logic
     // We send to email first, then show the "Choice" modal.
-    const emailEndpoint = "https://formspree.io/f/xlgajyzq"; 
+    const emailEndpoint = "https://formspree.io/f/mdaygjlv"; 
 
     fetch(emailEndpoint, {
         method: 'POST',
@@ -1172,7 +1172,7 @@ function initContactMethods() {
             if (icon.classList.contains('fa-phone')) {
                 window.open('tel:+919099662234', '_self');
             } else if (icon.classList.contains('fa-envelope')) {
-                window.open('mailto:tradeprop.info@gmail.com', '_self');
+                window.open('mailto:tatvabytradeprop@gmail.com', '_self');
             } else if (icon.classList.contains('fa-location-dot') || icon.classList.contains('fa-map-marker-alt')) {
                 window.open('https://maps.google.com/?q=Sanand-Nal+Sarovar+Road+Gujarat', '_blank');
             }

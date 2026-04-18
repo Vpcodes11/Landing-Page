@@ -746,7 +746,7 @@ ol li::before {
     color: white;
 }
 
-.brand-info h1 {
+.brand-info .brand-name {
     font-size: var(--text-2xl);
     font-weight: var(--font-bold);
     color: var(--luxury-black);
@@ -1584,13 +1584,17 @@ ol li::before {
 }
 
 .art-hero .section-title {
-    font-size: clamp(3rem, 8vw, 5.5rem) !important;
+    font-size: clamp(2rem, 5vw, 3.5rem) !important;
     font-weight: 800;
     line-height: 1.1;
     letter-spacing: -0.01em;
-    margin-bottom: 20px;
+    margin-bottom: 12px;
     text-align: center;
     text-transform: capitalize;
+    white-space: nowrap;
+    text-shadow: 
+        0 4px 10px rgba(0, 0, 0, 0.8),
+        0 10px 30px rgba(0, 0, 0, 1); /* Deep black shadow */
 }
 
 .art-hero .golden-text {
@@ -1665,16 +1669,19 @@ ol li::before {
 
 .hero-subtitle {
     color: #ffffff;
-    letter-spacing: 0.6em;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
-    font-size: 0.95rem; /* Larger */
-    margin: 8px auto 0 auto;
+    font-size: 1rem;
+    margin: 10px auto 0 auto;
     text-align: center;
     width: 100%;
     font-weight: 600;
     display: block;
-    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
-    opacity: 1; /* Full visibility */
+    opacity: 1;
+    white-space: nowrap;
+    text-shadow: 
+        0 2px 4px rgba(0, 0, 0, 0.9),
+        0 4px 12px rgba(0, 0, 0, 0.7); /* Deep layered shadow */
 }
 
 /* Enhanced Brochure Modal */
@@ -1797,24 +1804,28 @@ ol li::before {
 
 .hero-meta {
     display: flex;
-    gap: 25px;
+    gap: 30px;
     align-items: center;
     justify-content: center;
-    margin-top: 30px;
+    margin: 25px auto; /* Centered with vertical breathing room */
+    z-index: 5;
 }
 
 .meta-item {
-    font-size: 0.95rem; /* Larger */
-    letter-spacing: 0.05em;
+    font-size: 1.1rem; /* Bolder and larger */
+    letter-spacing: 0.03em;
     color: #ffffff;
-    font-weight: 500;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+    font-weight: 600;
+    text-shadow: 
+        0 4px 8px rgba(0, 0, 0, 0.9),
+        0 0 20px rgba(0, 0, 0, 0.5); /* Heavy depth shadow */
+    text-transform: uppercase;
 }
 
 .meta-item span {
-    color: #D4AF37; /* Brighter gold */
+    color: #F4E6A1; /* Light, brilliant gold */
     font-weight: 800;
-    margin-right: 8px;
+    margin-right: 10px;
 }
 
 .meta-divider {
@@ -5671,6 +5682,69 @@ label {
         text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
     }
 }
+
+/* ========================================
+   WHY CHOOSE TATVA SECTION
+   ======================================== */
+.why-tatva-section {
+    padding: var(--space-4xl) 0;
+    background-color: var(--ivory);
+    position: relative;
+    overflow: hidden;
+}
+
+.why-tatva-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-2xl);
+    margin-top: var(--space-3xl);
+}
+
+.why-tatva-card {
+    background: white;
+    padding: var(--space-2xl);
+    border-radius: 20px;
+    box-shadow: var(--shadow-soft);
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    border: 1px solid rgba(212, 175, 55, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    height: 100%;
+}
+
+.why-tatva-card:hover {
+    transform: translateY(-10px);
+    box-shadow: var(--shadow-medium);
+    border-color: var(--primary-gold);
+}
+
+.why-tatva-icon {
+    width: 60px;
+    height: 60px;
+    background: var(--gradient-gold-soft);
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: var(--space-lg);
+    color: var(--dark-gold);
+    font-size: 1.5rem;
+}
+
+.why-tatva-card h3 {
+    font-size: var(--text-xl);
+    margin-bottom: var(--space-md);
+    color: var(--luxury-black);
+}
+
+.why-tatva-card p {
+    font-size: var(--text-sm);
+    color: var(--charcoal);
+    line-height: 1.6;
+    margin: 0;
+}
+
 
 /* Reduced motion support */
 @media (prefers-reduced-motion: reduce) {

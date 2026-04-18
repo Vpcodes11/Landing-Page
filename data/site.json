@@ -13,7 +13,7 @@
         { "icon": "fas fa-road", "text": "60ft Wide Roads" },
         { "icon": "fas fa-shield-alt", "text": "RERA Approved" }
       ],
-      "priceMain": "₹11 Lakhs",
+      "priceMain": "₹12 Lakhs",
       "priceNote": "onwards • All inclusive",
       "aosDelay": 200
     },
@@ -30,7 +30,7 @@
         { "icon": "fas fa-car", "text": "Private Parking" },
         { "icon": "fas fa-seedling", "text": "Private Gardens" }
       ],
-      "priceMain": "₹35 Lakhs",
+      "priceMain": "₹36 Lakhs",
       "priceNote": "onwards • Move-in ready",
       "aosDelay": 400
     }
