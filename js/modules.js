@@ -31,7 +31,7 @@ function createPropertyCard(item) {
     card.innerHTML = `
         <div class="property-visual">
             <div class="property-image">
-                <img src="${item.image}" alt="${item.imageAlt || item.title}">
+                <img src="${item.image}" alt="${item.imageAlt || item.title}" loading="lazy">
                 <div class="image-overlay"></div>
             </div>
             <div class="${badgeClass}">${item.badgeText || ''}</div>

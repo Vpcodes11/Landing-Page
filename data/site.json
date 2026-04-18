@@ -3,7 +3,7 @@
     {
       "key": "premium-plots",
       "title": "Premium Plots",
-      "image": "./images/Plot%20Images/Buy%20the%20Perfect%20Residential%20Plot%20and%20Secure%20Your%20Investment.jpg",
+      "image": "./images/Plot%20Images/premium-residential-plots.jpg",
       "imageAlt": "Premium Plots",
       "badgeText": "MOST COVETED",
       "badgeClass": "",
@@ -20,7 +20,7 @@
     {
       "key": "signature-villas",
       "title": "Signature Villas",
-      "image": "./images/Villa%20Images/Modern%20villas%20with%20turquoise%20pools.png",
+      "image": "./images/Villa%20Images/luxury-villa-turquoise-pools.png",
       "imageAlt": "Luxury Villas",
       "badgeText": "ULTRA LUXURY",
       "badgeClass": "luxury",
@@ -44,12 +44,12 @@
     ],
     "items": [
       { "key": "v-1", "category": "villas", "title": "Signature Villa", "subtitle": "Modern architectural design", "image": "./images/Villa%20Images/1.png", "imageAlt": "Signature Villa Front View" },
-      { "key": "v-2", "category": "villas", "title": "Turquoise Poolside", "subtitle": "Luxury outdoor living", "image": "./images/Villa%20Images/Modern%20villas%20with%20turquoise%20pools.png", "imageAlt": "Villa Pool" },
+      { "key": "v-2", "category": "villas", "title": "Turquoise Poolside", "subtitle": "Luxury outdoor living", "image": "./images/Villa%20Images/luxury-villa-turquoise-pools.png", "imageAlt": "Villa Pool" },
       { "key": "v-3", "category": "villas", "title": "Premium Entry", "subtitle": "Elegant villa entrance", "image": "./images/Villa%20Images/2.png", "imageAlt": "Villa Entry" },
       
-      { "key": "p-1", "category": "plots", "title": "Residential Plots", "subtitle": "Secure investment opportunity", "image": "./images/Plot%20Images/Buy%20the%20Perfect%20Residential%20Plot%20and%20Secure%20Your%20Investment.jpg", "imageAlt": "Plot Layout" },
-      { "key": "p-2", "category": "plots", "title": "Scenic Plots", "subtitle": "Nal Sarovar surroundings", "image": "./images/Plot%20Images/Open%20Plots%20for%20Sale%20in%20Shadnagar%20_%20Villa%20Plots%20_%20Sapta%20Varna.jpg", "imageAlt": "Scenic Plots" },
-      { "key": "p-3", "category": "plots", "title": "Plot Infrastructure", "subtitle": "Meticulously planned", "image": "./images/Plot%20Images/download%20(15).jpg", "imageAlt": "Plot Aerial" },
+      { "key": "p-1", "category": "plots", "title": "Residential Plots", "subtitle": "Secure investment opportunity", "image": "./images/Plot%20Images/premium-residential-plots.jpg", "imageAlt": "Plot Layout" },
+      { "key": "p-2", "category": "plots", "title": "Scenic Plots", "subtitle": "Nal Sarovar surroundings", "image": "./images/Plot%20Images/scenic-residential-plots.jpg", "imageAlt": "Scenic Plots" },
+      { "key": "p-3", "category": "plots", "title": "Plot Infrastructure", "subtitle": "Meticulously planned", "image": "./images/Plot%20Images/plot-infrastructure-aerial.jpg", "imageAlt": "Plot Aerial" },
 
       { "key": "r-1", "category": "resort", "title": "The Grand Entrance", "subtitle": "World-class resort experience", "image": "./images/Resort%20Images/1.jpg", "imageAlt": "Resort Entrance" },
       { "key": "r-2", "category": "resort", "title": "Luxury Lounge", "subtitle": "Premium club amenities", "image": "./images/Resort%20Images/3.jpg", "imageAlt": "Resort Lounge" },
