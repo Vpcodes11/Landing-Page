@@ -1,12 +1,11 @@
 {
   "name": "tatva-landing-page",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Tatva by Tradeprop - Luxury Living Redefined. Premium landing page for luxury residential property.",
   "main": "index.html",
   "scripts": {
     "start": "python -m http.server 8000",
     "dev": "python -m http.server 8000",
-    "build": "echo 'No build step required for static site'",
     "test": "echo 'No tests configured'"
   },
   "keywords": [
