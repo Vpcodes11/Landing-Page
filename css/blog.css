@@ -517,31 +517,52 @@
         grid-template-columns: 1fr;
     }
     
-    .post-title {
-        font-size: 2.8rem;
+    /* Fix Header Transparency Mashup */
+    .premium-nav {
+        background: #fff !important;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.05);
     }
-}
 
-@media (max-width: 768px) {
-    .blog-grid {
-        grid-template-columns: 1fr;
-    }
-    
-    .blog-card.featured {
-        grid-column: span 1;
-    }
-    
     .post-title {
-        font-size: 2.2rem;
+        font-size: clamp(1.8rem, 8vw, 2.2rem);
+        line-height: 1.1;
+        padding: 0 10px;
     }
     
+    .post-header-content {
+        padding: 60px 15px 30px;
+    }
+
     .post-meta {
         flex-direction: column;
-        gap: 10px;
+        gap: 12px;
+        font-size: 0.8rem;
     }
     
-    .meta-divider {
-        display: none;
+    /* Shrink Floating Buttons to prevent text overlap */
+    .floating-luxury-actions {
+        right: 15px;
+        bottom: 15px;
+        transform: scale(0.85);
+        transform-origin: bottom right;
+    }
+
+    .post-content {
+        padding: 0 10px;
+        overflow-x: hidden;
+    }
+
+    .post-content h2, .post-content h3 {
+        line-height: 1.2;
+        margin-top: 40px;
+    }
+
+    /* Hide the 'Mouse' and other redundant indicators */
+    .scroll-indicator, 
+    .mouse-scroll, 
+    .hero-scroll-indicator,
+    [class*="scroll-mouse"] {
+        display: none !important;
     }
 }
 
