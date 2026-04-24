@@ -8,5 +8,16 @@
         "distDir": "."
       }
     }
+  ],
+  "headers": [
+    {
+      "source": "/(.*\\.(css|js|webp|jpg|png|svg|woff2|woff|eot|ttf|json))",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    }
   ]
 }

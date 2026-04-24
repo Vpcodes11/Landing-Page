@@ -88,7 +88,7 @@ function initVisualJourneyCinematics() {
         track.className = 'filmstrip-track';
 
         // Images were moved into a subfolder; encode the space for URL safety.
-        const sources = Array.from({ length: 15 }, (_, i) => `./images/Resort%20Images/${i + 1}.jpg`);
+        const sources = Array.from({ length: 15 }, (_, i) => `./images/Resort%20Images/${i + 1}.webp`);
         const loopSources = [...sources, ...sources];
         loopSources.forEach(src => {
             const item = document.createElement('div');
@@ -113,7 +113,7 @@ function initLoadingScreen() {
     // Animate loading progress
     let progress = 0;
     const progressInterval = setInterval(() => {
-        progress += Math.random() * 15;
+        progress += Math.random() * 30 + 10;
         if (progress >= 100) {
             progress = 100;
             clearInterval(progressInterval);
@@ -125,12 +125,12 @@ function initLoadingScreen() {
                     loadingScreen.style.display = 'none';
                     isLoading = false;
                     startPageAnimations();
-                }, 500);
-            }, 500);
+                }, 300);
+            }, 100);
         }
         
         progressBar.style.width = progress + '%';
-    }, 100);
+    }, 40);
 }
 
 // ===== CUSTOM CURSOR =====
@@ -204,20 +204,29 @@ function initNavigation() {
     // Smooth scroll for navigation links
     navLinks.forEach(link => {
         link.addEventListener('click', (e) => {
-            e.preventDefault();
-            const targetId = link.getAttribute('href').substring(1);
-            const targetSection = document.getElementById(targetId);
+            const href = link.getAttribute('href');
             
-            if (targetSection) {
-                const offsetTop = targetSection.offsetTop - 80;
-                window.scrollTo({
-                    top: offsetTop,
-                    behavior: 'smooth'
-                });
+            // Only intercept hash links
+            if (href && href.startsWith('#')) {
+                e.preventDefault();
+                const targetId = href.substring(1);
+                const targetSection = document.getElementById(targetId);
                 
-                // Update active nav link
-                updateActiveNavLink(link);
+                if (targetSection) {
+                    const offsetTop = targetSection.offsetTop - 80;
+                    window.scrollTo({
+                        top: offsetTop,
+                        behavior: 'smooth'
+                    });
+                    
+                    // Update active nav link
+                    updateActiveNavLink(link);
+                } else if (targetId) {
+                    // If target section is missing (e.g. on blog page), redirect to index.html
+                    window.location.href = 'index.html' + href;
+                }
             }
+            // If it's a regular link like 'blog.html', let the browser handle it naturally.
         });
     });
     
