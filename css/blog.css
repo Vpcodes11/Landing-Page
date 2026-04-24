@@ -331,16 +331,19 @@
 
 /* Luxury Content Image Styling */
 .content-image-wrapper {
-    margin: 50px 0;
+    margin: 40px auto; /* Centered */
+    max-width: 850px; /* Controlled Width */
     position: relative;
-    border-radius: 12px;
+    border-radius: 16px;
     overflow: hidden;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-    border: 1px solid rgba(212, 175, 55, 0.1);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+    border: 1px solid rgba(212, 175, 55, 0.08);
 }
 
 .content-image-wrapper img {
     width: 100%;
+    max-height: 500px; /* Controlled Height */
+    object-fit: cover;
     display: block;
     transition: transform 0.8s ease;
 }
