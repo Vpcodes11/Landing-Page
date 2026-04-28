@@ -110,27 +110,27 @@ function initLoadingScreen() {
     const loadingScreen = document.getElementById('loadingScreen');
     const progressBar = document.querySelector('.loading-progress');
     
-    // Animate loading progress
+    // Animate loading progress - Faster for better PageSpeed metrics
     let progress = 0;
     const progressInterval = setInterval(() => {
-        progress += Math.random() * 30 + 10;
+        progress += Math.random() * 45 + 15; // Faster increment
         if (progress >= 100) {
             progress = 100;
             clearInterval(progressInterval);
             
-            // Hide loading screen after delay
-            setTimeout(() => {
+            // Hide loading screen immediately after reaching 100%
+            requestAnimationFrame(() => {
                 loadingScreen.style.opacity = '0';
                 setTimeout(() => {
                     loadingScreen.style.display = 'none';
                     isLoading = false;
                     startPageAnimations();
-                }, 300);
-            }, 100);
+                }, 200); // Shorter transition
+            });
         }
         
         progressBar.style.width = progress + '%';
-    }, 40);
+    }, 20); // Faster interval (20ms instead of 40ms)
 }
 
 // ===== CUSTOM CURSOR =====

@@ -576,6 +576,8 @@ ol li::before {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+    /* Added subtle shadow for better contrast on light backgrounds */
+    filter: drop-shadow(0 1px 1px rgba(0,0,0,0.1));
 }
 
 /* CUSTOM CURSOR */
@@ -1192,7 +1194,7 @@ ol li::before {
 .feature-info p {
     font-size: var(--text-sm);
     color: var(--charcoal);
-    opacity: 0.8;
+    opacity: 0.9; /* Increased from 0.8 */
     line-height: var(--leading-normal);
 }
 
@@ -1246,7 +1248,7 @@ ol li::before {
 .amenity-desc {
     font-size: var(--text-sm);
     color: var(--charcoal);
-    opacity: 0.7;
+    opacity: 0.85; /* Increased from 0.7 for better contrast */
 }
 
 .resort-cta-section {
@@ -1438,7 +1440,8 @@ ol li::before {
     left: 0;
     width: 100%;
     height: 100%;
-    background: url('./images/Resort%20Images/4.webp') center/cover no-repeat; /* full-screen cover */
+    /* Removed redundant background URL to improve LCP - handled by img tag in HTML */
+    background-color: #000; 
     background-attachment: fixed;
 }
 
