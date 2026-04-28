@@ -151,11 +151,11 @@
 .post-hero-content {
     position: relative;
     z-index: 3;
-    max-width: 820px;
-    padding: 0 30px 60px;
+    max-width: 900px;
+    padding: 0 40px 70px;
     margin: 0 auto;
     width: 100%;
-    text-align: left;           /* left-aligned like real blogs */
+    text-align: left;
 }
 
 /* Category pill in hero */
@@ -200,7 +200,7 @@
 }
 
 .post-article {
-    max-width: 720px;       /* universal comfortable reading width */
+    max-width: 780px;
     margin: 0 auto;
     padding: 0 24px;
     font-family: 'Montserrat', sans-serif;
@@ -262,7 +262,12 @@
 }
 
 /* ---- Images inside article ---- */
-.standard-image,
+.standard-image {
+    margin: 48px 0;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
 .breakout-image {
     margin: 48px 0;
     border-radius: 8px;
@@ -274,7 +279,7 @@
     width: 100%;
     height: auto;
     display: block;
-    max-height: 460px;
+    max-height: 520px;
     object-fit: cover;
 }
 
@@ -380,7 +385,105 @@
 }
 
 /* ========================================
-   RESPONSIVE
+   DESKTOP — screens 1024px and wider
+   ======================================== */
+@media (min-width: 1024px) {
+    /* Hero: taller and more cinematic */
+    .post-hero {
+        height: 85vh;
+        min-height: 600px;
+    }
+
+    .post-hero-content {
+        max-width: 1000px;
+        padding: 0 60px 80px;
+    }
+
+    .post-main-title {
+        font-size: 3.5rem;
+    }
+
+    .post-main-meta {
+        font-size: 0.85rem;
+        gap: 16px;
+    }
+
+    /* Article body: wider reading column */
+    .post-article {
+        max-width: 800px;
+        padding: 0 32px;
+    }
+
+    .post-article p,
+    .post-article li {
+        font-size: 1.15rem;
+        line-height: 1.9;
+    }
+
+    .post-article .lead-text {
+        font-size: 1.45rem;
+    }
+
+    .post-article h2 {
+        font-size: 2.2rem;
+        margin: 72px 0 28px;
+    }
+
+    .post-article h3 {
+        font-size: 1.6rem;
+    }
+
+    /* Breakout images: expand beyond the text column */
+    .breakout-image {
+        max-width: 1100px;
+        margin-left: auto;
+        margin-right: auto;
+        /* Center but wider than 800px article */
+        width: calc(100% + 300px);
+        margin-left: -150px;
+        border-radius: 12px;
+    }
+
+    .breakout-image img {
+        max-height: 560px;
+    }
+
+    .standard-image img {
+        max-height: 520px;
+    }
+
+    /* Quote: wider and more impactful */
+    .luxury-quote {
+        padding: 52px 48px;
+    }
+
+    .luxury-quote p {
+        font-size: 1.6rem !important;
+    }
+
+    /* CTA: wider with more padding */
+    .post-cta {
+        padding: 60px 56px;
+    }
+
+    .post-cta h3 {
+        font-size: 2rem;
+    }
+
+    .post-cta p {
+        font-size: 1.1rem !important;
+    }
+
+    /* Share icons: bigger */
+    .share-icon {
+        width: 48px;
+        height: 48px;
+        font-size: 1rem;
+    }
+}
+
+/* ========================================
+   MOBILE — screens below 768px
    ======================================== */
 @media (max-width: 768px) {
     .blog-grid {
