@@ -233,6 +233,9 @@ function initNavigation() {
     // Phone button functionality
     if (phoneButton) {
         phoneButton.addEventListener('click', () => {
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'click', { 'event_category': 'button', 'event_label': 'nav_phone_click' });
+            }
             window.open('tel:+919099662234', '_self');
         });
     }
@@ -688,15 +691,16 @@ function handleFormSubmission(e) {
     submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> SUBMITTING...';
     submitButton.disabled = true;
     
-    // Simulate form submission
+    // Simulate form submission (you would replace this with actual AJAX if needed)
     setTimeout(() => {
-        showFormSuccessMessage();
+        // Redirect to Thank You page for conversion tracking
+        window.location.href = 'thank-you.html';
         e.target.reset();
         
-        // Reset button state
+        // Reset button state (in case user comes back)
         submitButton.innerHTML = '<span>SCHEDULE CONSULTATION</span><i class="fas fa-arrow-right"></i>';
         submitButton.disabled = false;
-    }, 2000);
+    }, 1500);
 }
 
 function showFormSuccessMessage() {
@@ -725,12 +729,18 @@ function initFloatingActions() {
     
     if (whatsappButton) {
         whatsappButton.addEventListener('click', () => {
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'click', { 'event_category': 'button', 'event_label': 'whatsapp_click' });
+            }
             window.open('https://wa.me/919099662234?text=Hi, I am interested in Tatva by Tradeprop properties.', '_blank');
         });
     }
     
     if (callButton) {
         callButton.addEventListener('click', () => {
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'click', { 'event_category': 'button', 'event_label': 'call_click' });
+            }
             window.open('tel:+919099662234', '_self');
         });
     }
