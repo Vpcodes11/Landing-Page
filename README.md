@@ -162,13 +162,13 @@ MIT License - See LICENSE file for details
 - **GitHub**: https://github.com/Vpcodes11/Landing-Page
 - **Property Info**: [Add your property link]
 - **Contact**: tatvabytradeprop@gmail.com
-- **Phone**: +91 90996 62234
+- **Phone**: +91 63528 59448
 
 ## 📧 Contact & Support
 
 For issues, suggestions, or inquiries:
 - **Email**: tatvabytradeprop@gmail.com
-- **Phone**: +91 90996 62234
+- **Phone**: +91 63528 59448
 - **GitHub Issues**: Create an issue in the repository
 
 ---

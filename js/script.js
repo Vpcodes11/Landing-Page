@@ -265,7 +265,7 @@ function initNavigation() {
 
     if (phoneButton) {
         phoneButton.addEventListener('click', () => {
-            window.open('tel:+919099662234', '_self');
+            window.open('tel:+916352859448', '_self');
         });
     }
 
@@ -761,7 +761,7 @@ function handleFormSubmission(e) {
         `Message: ${data.message}`
     ];
     const whatsappMessage = encodeURIComponent(`Tatva Real Estate Enquiry\n\n${details.join('\n')}`);
-    const whatsappUrl = `https://wa.me/919099662234?text=${whatsappMessage}`;
+    const whatsappUrl = `https://wa.me/916352859448?text=${whatsappMessage}`;
 
     // 1. Mark as loading
     if (submitBtn) {
@@ -815,10 +815,10 @@ function handleFormSubmission(e) {
         console.error("Network error during lead capture:", error);
     })
     .finally(() => {
-        // Show the "Luxury Choice" Modal
-        showFormSuccessMessage(data.name, whatsappUrl, form.hasAttribute('data-brochure'));
+        // Redirect to thank-you.html for Google Ads Conversion Tracking
+        window.location.href = 'thank-you.html';
         
-        // Reset Form
+        // Form reset and button state reset (though page will redirect)
         form.reset();
         if (submitBtn) {
             submitBtn.innerHTML = originalBtnHTML;
@@ -891,13 +891,13 @@ function initFloatingActions() {
 
     if (whatsappButton) {
         whatsappButton.addEventListener('click', () => {
-            window.open('https://wa.me/919099662234?text=Hi, I am interested in Tatva by Tradeprop properties.', '_blank');
+            window.open('https://wa.me/916352859448?text=Hi, I am interested in Tatva by Tradeprop properties.', '_blank');
         });
     }
 
     if (callButton) {
         callButton.addEventListener('click', () => {
-            window.open('tel:+919099662234', '_self');
+            window.open('tel:+916352859448', '_self');
         });
     }
 

@@ -236,7 +236,7 @@ function initNavigation() {
             if (typeof gtag !== 'undefined') {
                 gtag('event', 'click', { 'event_category': 'button', 'event_label': 'nav_phone_click' });
             }
-            window.open('tel:+919099662234', '_self');
+            window.open('tel:+916352859448', '_self');
         });
     }
     
@@ -732,7 +732,7 @@ function initFloatingActions() {
             if (typeof gtag !== 'undefined') {
                 gtag('event', 'click', { 'event_category': 'button', 'event_label': 'whatsapp_click' });
             }
-            window.open('https://wa.me/919099662234?text=Hi, I am interested in Tatva by Tradeprop properties.', '_blank');
+            window.open('https://wa.me/916352859448?text=Hi, I am interested in Tatva by Tradeprop properties.', '_blank');
         });
     }
     
@@ -741,7 +741,7 @@ function initFloatingActions() {
             if (typeof gtag !== 'undefined') {
                 gtag('event', 'click', { 'event_category': 'button', 'event_label': 'call_click' });
             }
-            window.open('tel:+919099662234', '_self');
+            window.open('tel:+916352859448', '_self');
         });
     }
     
