@@ -1,6 +1,24 @@
+
+// Helper to correct paths if the page is in a subfolder
+function getBasePath() {
+    const depth = (window.location.pathname.split('/').length - 1) - (window.location.pathname.endsWith('/') ? 1 : 0);
+    // This is a bit tricky for static sites. 
+    // Let's check the current script's src to find the root.
+    const script = document.querySelector('script[src*="modules.js"]');
+    if (script) {
+        const src = script.getAttribute('src');
+        if (src.startsWith('../')) {
+            return src.substring(0, src.lastIndexOf('js/'));
+        }
+    }
+    return '';
+}
+
+const basePrefix = getBasePath();
+
 async function loadSiteData() {
     try {
-        const res = await fetch('data/site.json', { cache: 'no-cache' });
+        const res = await fetch(basePrefix + 'data/site.json', { cache: 'no-cache' });
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         return await res.json();
     } catch (err) {
@@ -18,7 +36,6 @@ function createPropertyCard(item) {
     }
 
     const badgeClass = item.badgeClass ? `property-badge ${item.badgeClass}` : 'property-badge';
-
     const featuresHtml = (item.features || [])
         .map(f => `
             <div class="feature-item">
@@ -28,10 +45,14 @@ function createPropertyCard(item) {
         `)
         .join('');
 
+    // Correct image path
+    let imgSrc = item.image || '';
+    if (imgSrc.startsWith('./')) imgSrc = basePrefix + imgSrc.substring(2);
+
     card.innerHTML = `
         <div class="property-visual">
             <div class="property-image">
-                <img src="${item.image}" alt="${item.imageAlt || item.title}" loading="lazy">
+                <img src="${imgSrc}" alt="${item.imageAlt || item.title}" loading="lazy" onerror="this.src='${basePrefix}images/logo.webp';this.classList.add('fallback-img');">
                 <div class="image-overlay"></div>
             </div>
             <div class="${badgeClass}">${item.badgeText || ''}</div>
@@ -75,7 +96,6 @@ function renderProperties(data) {
     data.properties.forEach(item => container.appendChild(createPropertyCard(item)));
 }
 
-
 function createGalleryFilters(filters) {
     const bar = document.createElement('div');
     bar.className = 'gallery-filters';
@@ -96,9 +116,14 @@ function createGalleryPiece(item) {
     const el = document.createElement('div');
     el.className = 'gallery-piece';
     el.setAttribute('data-category', item.category || 'all');
+    
+    // Correct image path
+    let imgSrc = item.image || '';
+    if (imgSrc.startsWith('./')) imgSrc = basePrefix + imgSrc.substring(2);
+
     el.innerHTML = `
         <div class="piece-image">
-            <img src="${item.image}" alt="${item.imageAlt || item.title}" loading="lazy">
+            <img src="${imgSrc}" alt="${item.imageAlt || item.title}" loading="lazy" onerror="this.src='${basePrefix}images/logo.webp';this.classList.add('fallback-img');">
         </div>
         <div class="piece-overlay">
             <div class="piece-info">
@@ -132,6 +157,10 @@ function renderGallery(data) {
 
 window.__modulesReady = (async () => {
     const data = await loadSiteData();
-    renderProperties(data);
-    renderGallery(data);
+    if (data) {
+        renderProperties(data);
+        renderGallery(data);
+        // Refresh AOS to detect new elements
+        if (window.AOS) window.AOS.refresh();
+    }
 })();

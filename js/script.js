@@ -760,7 +760,7 @@ function handleFormSubmission(e) {
         `Interest/Budget: ${data.interest}`,
         `Message: ${data.message}`
     ];
-    const whatsappMessage = encodeURIComponent(`Tatva Real Estate Enquiry\n\n${details.join('\n')}`);
+    const whatsappMessage = encodeURIComponent(`Tatva Real Estate Enquiry (via tatvabytradeprop.com)\n\n${details.join('\n')}`);
     const whatsappUrl = `https://wa.me/916352859448?text=${whatsappMessage}`;
 
     // 1. Mark as loading
@@ -815,10 +815,13 @@ function handleFormSubmission(e) {
         console.error("Network error during lead capture:", error);
     })
     .finally(() => {
-        // Redirect to thank-you.html for Google Ads Conversion Tracking
-        window.location.href = 'thank-you.html';
+        // Don't redirect for brochure downloads — the modal handles the UX
+        if (!form.hasAttribute('data-brochure')) {
+            // Redirect to thank-you.html for Google Ads Conversion Tracking
+            window.location.href = 'thank-you.html';
+        }
         
-        // Form reset and button state reset (though page will redirect)
+        // Form reset and button state reset
         form.reset();
         if (submitBtn) {
             submitBtn.innerHTML = originalBtnHTML;
@@ -838,10 +841,13 @@ function showFormSuccessMessage(name, whatsappUrl, isBrochure = false) {
         : `Thank you, ${name}. Our team has received your details and will get back to you shortly.`;
     const ctaText = isBrochure ? 'Download via WhatsApp' : 'Chat via WhatsApp';
     const brochureBtn = isBrochure 
-        ? `<a href="TATVA Brochure.pdf" download="TATVA_Brochure.pdf" class="success-btn brochure-btn" style="background: var(--luxury-black); color: white;">
-                <i class="fas fa-file-download"></i>
-                <span>Download Brochure (PDF)</span>
-           </a>`
+        ? `<div class="brochure-download-options">
+                <a href="TATVA_Brochure_compressed.pdf" download="TATVA_Brochure_compressed.pdf" class="success-btn brochure-btn" style="background: var(--luxury-black); color: white;">
+                    <i class="fas fa-file-download"></i>
+                    <span>Download Brochure (~6MB)</span>
+                </a>
+                <p style="font-size: 0.75rem; color: #666; margin-top: 8px;">Note: High-quality visuals may take a moment to download.</p>
+           </div>`
         : '';
 
     modal.innerHTML = `
@@ -885,21 +891,9 @@ function showFormSuccessMessage(name, whatsappUrl, isBrochure = false) {
 
 // ===== FLOATING ACTIONS =====
 function initFloatingActions() {
-    const whatsappButton = document.querySelector('.luxury-fab.whatsapp');
-    const callButton = document.querySelector('.luxury-fab.call');
+    // WhatsApp and Call buttons are native <a> tags in footer.html
+    // — no JS click handlers needed (they caused double-navigation).
     const scrollTopButton = document.querySelector('.luxury-fab.scroll-top');
-
-    if (whatsappButton) {
-        whatsappButton.addEventListener('click', () => {
-            window.open('https://wa.me/916352859448?text=Hi, I am interested in Tatva by Tradeprop properties.', '_blank');
-        });
-    }
-
-    if (callButton) {
-        callButton.addEventListener('click', () => {
-            window.open('tel:+916352859448', '_self');
-        });
-    }
 
     if (scrollTopButton) {
         scrollTopButton.addEventListener('click', () => {
@@ -1085,8 +1079,8 @@ function openBrochureModal() {
         
         // 2. Trigger the actual file download immediately
         const link = document.createElement('a');
-        link.href = 'TATVA Brochure.pdf';
-        link.download = 'TATVA_Brochure.pdf';
+        link.href = 'TATVA_Brochure_compressed.pdf';
+        link.download = 'TATVA_Brochure_compressed.pdf';
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
@@ -1129,31 +1123,7 @@ function openBookingModal() {
 }
 
 function playVideoExperience() {
-    // Create video modal
-    const videoModal = document.createElement('div');
-    videoModal.className = 'video-modal';
-    videoModal.innerHTML = `
-        <div class="video-overlay"></div>
-        <div class="video-container">
-            <button class="video-close">&times;</button>
-            <div class="video-placeholder">
-                <i class="fas fa-play"></i>
-                <h3>Property Experience Video</h3>
-                <p>Coming Soon - Virtual tour of Tatva luxury properties</p>
-            </div>
-        </div>
-    `;
-
-    document.body.appendChild(videoModal);
-
-    // Close video modal
-    videoModal.querySelector('.video-close').addEventListener('click', () => {
-        videoModal.remove();
-    });
-
-    videoModal.querySelector('.video-overlay').addEventListener('click', () => {
-        videoModal.remove();
-    });
+    window.location.href = 'gallery.html';
 }
 
 // ===== ERROR HANDLING =====
@@ -1163,22 +1133,9 @@ window.addEventListener('error', function (e) {
 
 // ===== CONTACT METHODS =====
 function initContactMethods() {
-    const contactMethods = document.querySelectorAll('.contact-new__card');
-
-    contactMethods.forEach(method => {
-        method.addEventListener('click', () => {
-            const card = method.closest('.contact-new__card') || method;
-            const icon = card.querySelector('i');
-
-            if (icon.classList.contains('fa-phone')) {
-                window.open('tel:+919099662234', '_self');
-            } else if (icon.classList.contains('fa-envelope')) {
-                window.open('mailto:tatvabytradeprop@gmail.com', '_self');
-            } else if (icon.classList.contains('fa-location-dot') || icon.classList.contains('fa-map-marker-alt')) {
-                window.open('https://maps.google.com/?q=Sanand-Nal+Sarovar+Road+Gujarat', '_blank');
-            }
-        });
-    });
+    // Contact cards are native <a> tags with correct hrefs in the HTML.
+    // No JS click handlers needed — they conflicted with native behavior
+    // and previously used the wrong phone number.
 }
 
 // ===== PROPERTY INTERACTION =====
@@ -1220,7 +1177,7 @@ function openPropertyDetails(card) {
                 <p>Detailed information about ${propertyType} coming soon. Contact us for exclusive preview.</p>
                 <div class="modal-actions">
                     <button class="modal-cta primary" onclick="openBookingModal()">Schedule Visit</button>
-                    <button class="modal-cta secondary" onclick="window.open('tel:+919099662234', '_self')">Call Now</button>
+                    <button class="modal-cta secondary" onclick="window.open('tel:+916352859448', '_self')">Call Now</button>
                 </div>
             </div>
         </div>
@@ -1304,6 +1261,28 @@ const debouncedScrollHandler = debounce(() => {
 }, 16); // 60fps
 
 window.addEventListener('scroll', debouncedScrollHandler);
+
+/* 
+   ========================================
+   GLOBAL IMAGE ERROR HANDLING
+   ========================================
+*/
+document.addEventListener('error', function (e) {
+    if (e.target.tagName && e.target.tagName.toLowerCase() === 'img') {
+        const img = e.target;
+        if (!img.classList.contains('fallback-img')) {
+            // Determine correct logo path based on directory depth
+            const isSubfolder = window.location.pathname.includes('/downloads/') || 
+                               window.location.pathname.includes('/blog/') ||
+                               window.location.pathname.endsWith('blog-post-1.html');
+            const logoPath = isSubfolder ? '../images/logo.webp' : './images/logo.webp';
+            
+            img.style.opacity = '0.5'; // Subtle hint it's a fallback
+            img.src = logoPath;
+            img.classList.add('fallback-img');
+        }
+    }
+}, true);
 
 // ===== ACCESSIBILITY FEATURES =====
 function initAccessibility() {
@@ -1405,7 +1384,7 @@ function showFeatureModal(featureTitle) {
                 <p>Experience the luxury of ${featureTitle} at Tatva Club Resort. Contact us for more details and booking.</p>
                 <div class="modal-actions">
                     <button class="modal-cta primary" onclick="openBookingModal()">Book Experience</button>
-                    <button class="modal-cta secondary" onclick="window.open('tel:+919099662234', '_self')">Call Now</button>
+                    <button class="modal-cta secondary" onclick="window.open('tel:+916352859448', '_self')">Call Now</button>
                 </div>
             </div>
         </div>

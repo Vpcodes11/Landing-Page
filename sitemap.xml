@@ -54,4 +54,25 @@
   <priority>0.7</priority>
 </url>
 
+<url>
+  <loc>https://www.tatvabytradeprop.com/blog-post-2.html</loc>
+  <lastmod>2026-04-23T00:00:00+00:00</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.7</priority>
+</url>
+
+<url>
+  <loc>https://www.tatvabytradeprop.com/blog-post-3.html</loc>
+  <lastmod>2026-04-23T00:00:00+00:00</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.7</priority>
+</url>
+
+<url>
+  <loc>https://www.tatvabytradeprop.com/downloads/tatva-brochure.html</loc>
+  <lastmod>2026-05-01T00:00:00+00:00</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.5</priority>
+</url>
+
 </urlset>

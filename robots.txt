@@ -9,3 +9,4 @@ Sitemap: https://www.tatvabytradeprop.com/sitemap.xml
 
 # Disallow admin/private paths
 Disallow: /downloads/
+Allow: /downloads/tatva-brochure.html

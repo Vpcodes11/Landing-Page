@@ -22,9 +22,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <meta name="theme-color" content="#000000">
 
     <!-- Canonical URL -->
-    <link rel="canonical" href="https://www.tatvabytradeprop.com/club-resort">
-    <link rel="alternate" hreflang="en" href="https://www.tatvabytradeprop.com/club-resort">
-    <link rel="alternate" hreflang="x-default" href="https://www.tatvabytradeprop.com/club-resort">
+    <link rel="canonical" href="https://www.tatvabytradeprop.com/club-resort.html">
+    <link rel="alternate" hreflang="en" href="https://www.tatvabytradeprop.com/club-resort.html">
+    <link rel="alternate" hreflang="x-default" href="https://www.tatvabytradeprop.com/club-resort.html">
 
     <!-- SEO Meta Tags -->
     <meta name="description" content="Explore Tatva Club & Resort. 5-star luxury amenities including an Olympic pool, spa, and fine dining exclusively for owners of our residential plots in Ahmedabad.">
@@ -32,7 +32,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
     <!-- Open Graph -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://www.tatvabytradeprop.com/club-resort">
+    <meta property="og:url" content="https://www.tatvabytradeprop.com/club-resort.html">
     <meta property="og:title" content="Tatva Club & Resort | Luxury Amenities for Real Estate in Ahmedabad">
     <meta property="og:description" content="Explore Tatva Club & Resort. 5-star luxury amenities including an Olympic pool, spa, and fine dining exclusively for owners of our residential plots in Ahmedabad.">
     <meta property="og:image" content="https://www.tatvabytradeprop.com/images/logo.png">
@@ -44,8 +44,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <meta property="twitter:image" content="https://www.tatvabytradeprop.com/images/logo.png">
 
     <!-- Preload Critical Assets for LCP -->
-    <link rel="preload" as="image" href="https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80">
     <link rel="preload" as="image" href="./images/logo.webp" type="image/webp">
+    <link rel="preload" as="image" href="https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" fetchpriority="high">
+
+    <!-- Resource Hints -->
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+    <link rel="dns-prefetch" href="https://connect.facebook.net">
 
     <!-- Critical CSS -->
     <link rel="preload" href="css/styles.min.css" as="style">
@@ -87,7 +92,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div class="loading-screen" id="loadingScreen">
         <div class="loading-content">
             <div class="golden-logo">
-                <div class="logo-icon"><img src="./images/logo.webp" alt="Tatva Logo" class="logo-img"></div>
+                <div class="logo-icon"><img decoding="async" loading="eager" fetchpriority="high" src="./images/logo.webp" alt="Tatva Logo" class="logo-img"></div>
             </div>
             <div class="loading-text">TATVA</div>
             <div class="loading-subtitle">BY TRADEPROP</div>
@@ -118,13 +123,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
             <div class="resort-showcase-grid">
                 <!-- Main Resort Visual -->
-                <div class="resort-hero" data-aos="fade-right" data-aos-delay="200">
-                    <div class="resort-image-container">
-                        <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
-                            alt="Tatva Club Resort" class="resort-main-image">
+                <div class="resort-hero" data-aos="zoom-in" data-aos-duration="1000">
+                    <div class="resort-image-container premium-hover">
+                        <img decoding="async" fetchpriority="high" loading="eager" src="./images/Resort Images/1.webp"
+                            alt="Tatva Club Resort Grand Entrance" class="resort-main-image">
                         <div class="resort-overlay">
-                            <div class="resort-badge">5-Star Luxury</div>
-                            <button class="resort-play-btn">
+                            <div class="resort-badge" style="background: var(--luxury-gold); color: #000; font-weight: 700; padding: 5px 15px; border-radius: 20px; text-transform: uppercase; letter-spacing: 2px;">5-Star Luxury</div>
+                            <button class="resort-play-btn btn-animate" onclick="window.location.href='gallery.html'">
                                 <i class="fas fa-play"></i>
                                 <span>Virtual Tour</span>
                             </button>
@@ -133,68 +138,68 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 </div>
 
                 <!-- Resort Features Grid -->
-                <div class="resort-features-grid" data-aos="fade-left" data-aos-delay="300">
-                    <div class="resort-feature-card">
+                <div class="resort-features-grid">
+                    <div class="resort-feature-card" data-aos="fade-up" data-aos-delay="100">
                         <div class="feature-image">
-                            <img src="https://images.unsplash.com/photo-1530549387789-4c1017266635?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
-                                alt="Swimming Pool">
+                            <img loading="lazy" src="./images/Resort Images/3.webp"
+                                alt="Luxury Lounge">
                             <div class="feature-overlay">
-                                <i class="fas fa-swimming-pool"></i>
+                                <i class="fas fa-glass-cheers"></i>
                             </div>
                         </div>
                         <div class="feature-info">
-                            <h4>Olympic Swimming Pool</h4>
-                            <p>Temperature-controlled infinity pool with poolside service</p>
+                            <h4>Luxury Lounge</h4>
+                            <p>Premium club amenities designed for relaxation and elegant social gatherings.</p>
                         </div>
                     </div>
 
-                    <div class="resort-feature-card">
+                    <div class="resort-feature-card" data-aos="fade-up" data-aos-delay="200">
                         <div class="feature-image">
-                            <img src="https://images.unsplash.com/photo-1571902943202-507ec2618e8f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
-                                alt="Gym & Spa">
+                            <img loading="lazy" src="./images/Resort Images/5.webp"
+                                alt="Leisure Hub">
                             <div class="feature-overlay">
-                                <i class="fas fa-dumbbell"></i>
+                                <i class="fas fa-spa"></i>
                             </div>
                         </div>
                         <div class="feature-info">
-                            <h4>Gym & Spa</h4>
-                            <p>Complete fitness center with spa and wellness facilities</p>
+                            <h4>Wellness & Spa</h4>
+                            <p>Complete fitness and wellness center offering rejuvenating therapies.</p>
                         </div>
                     </div>
 
-                    <div class="resort-feature-card">
+                    <div class="resort-feature-card" data-aos="fade-up" data-aos-delay="300">
                         <div class="feature-image">
-                            <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
-                                alt="Fine Dining">
+                            <img loading="lazy" src="./images/Resort Images/2.webp"
+                                alt="Main Clubhouse">
                             <div class="feature-overlay">
                                 <i class="fas fa-utensils"></i>
                             </div>
                         </div>
                         <div class="feature-info">
-                            <h4>Multi-Cuisine Restaurant</h4>
-                            <p>Gourmet dining with international and local cuisines</p>
+                            <h4>The Clubhouse</h4>
+                            <p>The heart of Tatva, featuring gourmet dining and world-class hospitality.</p>
                         </div>
                     </div>
 
-                    <div class="resort-feature-card">
+                    <div class="resort-feature-card" data-aos="fade-up" data-aos-delay="400">
                         <div class="feature-image">
-                            <img src="https://images.unsplash.com/photo-1519167758481-83f550bb49b3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
-                                alt="Event Hall">
+                            <img loading="lazy" src="./images/Resort Images/8.webp"
+                                alt="Evening Ambiance">
                             <div class="feature-overlay">
                                 <i class="fas fa-calendar-alt"></i>
                             </div>
                         </div>
                         <div class="feature-info">
-                            <h4>Grand Event Hall</h4>
-                            <p>Elegant banquet hall for celebrations and corporate events</p>
+                            <h4>Grand Event Spaces</h4>
+                            <p>Elegant venues perfect for hosting unforgettable celebrations and events.</p>
                         </div>
                     </div>
                 </div>
             </div>
 
             <!-- Resort Amenities Highlights -->
-            <div class="resort-amenities-bar" data-aos="fade-up" data-aos-delay="400">
-                <div class="amenity-highlight">
+            <div class="resort-amenities-bar" data-aos="fade-up" data-aos-delay="500">
+                <div class="amenity-highlight typography-hover">
                     <div class="amenity-icon">
                         <i class="fas fa-concierge-bell"></i>
                     </div>
@@ -204,17 +209,17 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     </div>
                 </div>
 
-                <div class="amenity-highlight">
+                <div class="amenity-highlight typography-hover">
                     <div class="amenity-icon">
-                        <i class="fas fa-car"></i>
+                        <i class="fas fa-swimming-pool"></i>
                     </div>
                     <div class="amenity-text">
-                        <span class="amenity-title">Valet Parking</span>
-                        <span class="amenity-desc">Complimentary</span>
+                        <span class="amenity-title">Olympic Pool</span>
+                        <span class="amenity-desc">Temperature Controlled</span>
                     </div>
                 </div>
 
-                <div class="amenity-highlight">
+                <div class="amenity-highlight typography-hover">
                     <div class="amenity-icon">
                         <i class="fas fa-wifi"></i>
                     </div>
@@ -224,7 +229,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     </div>
                 </div>
 
-                <div class="amenity-highlight">
+                <div class="amenity-highlight typography-hover">
                     <div class="amenity-icon">
                         <i class="fas fa-gamepad"></i>
                     </div>
@@ -234,13 +239,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     </div>
                 </div>
 
-                <div class="amenity-highlight">
+                <div class="amenity-highlight typography-hover">
                     <div class="amenity-icon">
-                        <i class="fas fa-calendar-alt"></i>
+                        <i class="fas fa-leaf"></i>
                     </div>
                     <div class="amenity-text">
-                        <span class="amenity-title">Event Spaces</span>
-                        <span class="amenity-desc">Banquet & Conference</span>
+                        <span class="amenity-title">Lush Gardens</span>
+                        <span class="amenity-desc">Landscaped Serenity</span>
                     </div>
                 </div>
             </div>
@@ -263,6 +268,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 </div>
             </div>
 
+        </div> <!-- End of container -->
     </section>
     <!-- Luxury Footer -->
     <div data-include="partials/footer.html"></div>

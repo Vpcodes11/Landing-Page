@@ -541,7 +541,7 @@ li {
     position: relative;
 }
 
-ul li::before {
+ul li:not(.nav-links li)::before {
     content: "•";
     color: var(--primary-gold);
     font-weight: var(--font-bold);
