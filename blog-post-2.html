@@ -81,6 +81,19 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PNHKTKDF"
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
+    <!-- Reading Progress Bar -->
+    <div class="reading-progress-container">
+        <div class="reading-progress-bar" id="readingProgress"></div>
+    </div>
+
+    <!-- Floating Share Bar (Desktop) -->
+    <div class="floating-share-bar">
+        <a href="#" class="share-btn-floating"><i class="fab fa-facebook-f"></i></a>
+        <a href="#" class="share-btn-floating"><i class="fab fa-twitter"></i></a>
+        <a href="#" class="share-btn-floating"><i class="fab fa-linkedin-in"></i></a>
+        <a href="#" class="share-btn-floating"><i class="fab fa-whatsapp"></i></a>
+    </div>
+
     <!-- Loading Screen -->
     <div class="loading-screen" id="loadingScreen">
         <div class="loading-content">
@@ -117,6 +130,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     <!-- NEW SINGLE COLUMN BODY -->
     <main class="post-body-wrapper">
+        <div class="back-to-blog-wrapper" data-aos="fade-right">
+            <a href="blog.html" class="back-to-blog">
+                <i class="fas fa-arrow-left"></i>
+                <span>Back to Insights</span>
+            </a>
+        </div>
         <article class="post-article" data-aos="fade-up">
             <p class="lead-text">Building a signature villa is more than just an architectural project; it’s the realization of a lifelong dream. Today’s luxury homeowners are moving beyond standard layouts, seeking bespoke designs that reflect their personal style while embracing modern functionality and sustainable living.</p>
             
@@ -156,6 +175,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 <a href="properties.html" class="post-cta-btn">EXPLORE PLOTS</a>
             </div>
 
+            <!-- NEWSLETTER SECTION -->
+            <section class="newsletter-box" data-aos="fade-up">
+                <h3 class="newsletter-title">Stay Ahead of the Market</h3>
+                <p class="newsletter-text">Join 5,000+ investors who receive our exclusive weekly insights on Ahmedabad's high-growth real estate corridors.</p>
+                <form class="newsletter-form">
+                    <input type="email" class="newsletter-input" placeholder="Your email address" required>
+                    <button type="submit" class="newsletter-submit">SUBSCRIBE</button>
+                </form>
+            </section>
+
             <!-- SOCIAL SHARE FOOTER -->
             <div class="post-share-footer">
                 <a href="#" class="share-icon"><i class="fab fa-facebook-f"></i></a>
@@ -175,6 +204,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <script src="js/modules.min.js" defer></script>
     <script src="js/script.min.js" defer></script>
     <script src="js/bootstrap.min.js" defer></script>
+    <script>
+        // Reading Progress Bar Logic
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById("readingProgress").style.width = scrolled + "%";
+        });
+    </script>
 </body>
 
 </html>
