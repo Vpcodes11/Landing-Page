@@ -32,6 +32,8 @@ function initializeApp() {
     // initStackedCardsAutoRotate(); // Function not defined, commented out to prevent crash.
     initAccessibility();
     initEmailProtection();
+    initNewsletterForm();
+    initDynamicShareLinks();
 }
 
 // Recompute floating layout on resize (debounced), bind only once
@@ -829,6 +831,75 @@ function handleFormSubmission(e) {
         }
     });
 }
+
+// ===== NEWSLETTER SYSTEM =====
+function initNewsletterForm() {
+    const forms = document.querySelectorAll('.newsletter-form');
+    forms.forEach(form => {
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const input = form.querySelector('.newsletter-input');
+            const submitBtn = form.querySelector('.newsletter-submit');
+            const originalText = submitBtn.textContent;
+
+            if (!input.value) return;
+
+            // Simple visual feedback
+            submitBtn.textContent = 'JOINING...';
+            submitBtn.disabled = true;
+
+            // Simulate API call
+            setTimeout(() => {
+                const container = form.parentElement;
+                const title = container.querySelector('.newsletter-title');
+                const text = container.querySelector('.newsletter-text');
+
+                // Premium success state
+                if (title) title.textContent = 'Welcome to the Inner Circle';
+                if (text) text.textContent = 'Thank you for subscribing. Our latest market insights will reach your inbox shortly.';
+                
+                form.style.display = 'none';
+
+                // Analytics track if available
+                if (typeof fbq === 'function') fbq('track', 'Lead', { content_name: 'Newsletter Subscription' });
+                if (typeof gtag === 'function') gtag('event', 'newsletter_signup');
+                
+            }, 1500);
+        });
+    });
+}
+
+// ===== DYNAMIC SHARE LINKS =====
+function initDynamicShareLinks() {
+    const shareLinks = document.querySelectorAll('.share-btn-floating, .share-icon');
+    const pageUrl = encodeURIComponent(window.location.href);
+    const pageTitle = encodeURIComponent(document.title);
+
+    shareLinks.forEach(link => {
+        const icon = link.querySelector('i');
+        if (!icon) return;
+
+        let href = '#';
+        if (icon.classList.contains('fa-facebook-f') || icon.classList.contains('fa-facebook')) {
+            href = `https://www.facebook.com/sharer/sharer.php?u=${pageUrl}`;
+        } else if (icon.classList.contains('fa-twitter') || icon.classList.contains('fa-x-twitter')) {
+            href = `https://twitter.com/intent/tweet?url=${pageUrl}&text=${pageTitle}`;
+        } else if (icon.classList.contains('fa-linkedin-in') || icon.classList.contains('fa-linkedin')) {
+            href = `https://www.linkedin.com/sharing/share-offsite/?url=${pageUrl}`;
+        } else if (icon.classList.contains('fa-whatsapp')) {
+            href = `https://wa.me/?text=${pageTitle}%20${pageUrl}`;
+        }
+
+        link.setAttribute('href', href);
+        link.setAttribute('target', '_blank');
+        link.setAttribute('rel', 'noopener noreferrer');
+        
+        // Accessibility
+        const platform = icon.className.split('fa-')[1].split(' ')[0].replace('-f', '').replace('-in', '');
+        link.setAttribute('aria-label', `Share on ${platform.charAt(0).toUpperCase() + platform.slice(1)}`);
+    });
+}
+
 
 function showFormSuccessMessage(name, whatsappUrl, isBrochure = false) {
     const modal = document.createElement('div');
