@@ -7,10 +7,6 @@
 let isLoading = true;
 let currentAmenityTab = 'clubhouse';
 let currentGalleryFilter = 'all';
-// Global Variables
-let isLoading = true;
-let currentAmenityTab = 'clubhouse';
-let currentGalleryFilter = 'all';
 let isPhoneVerified = false;
 
 /**
