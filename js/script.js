@@ -7,52 +7,6 @@
 let isLoading = true;
 let currentAmenityTab = 'clubhouse';
 let currentGalleryFilter = 'all';
-let isPhoneVerified = false;
-
-/**
- * OTPless Callback Function
- * This is called automatically by the OTPless SDK after verification.
- */
-window.otpless = (otplessUser) => {
-    if (otplessUser && otplessUser.status === "SUCCESS") {
-        const phone = otplessUser.phoneNumber;
-        const name = otplessUser.name;
-        
-        // 1. Mark as verified
-        isPhoneVerified = true;
-        
-        // 2. Fill the phone and name fields in any active form
-        const phoneFields = document.querySelectorAll('input[type="tel"], #phoneNumber, #modal-phone');
-        const nameFields = document.querySelectorAll('input[name="fullName"], input[name="name"], #modal-name');
-        
-        phoneFields.forEach(f => {
-            const cleanedPhone = phone.replace("+91", ""); // Strip India prefix for the input
-            f.value = cleanedPhone;
-            f.disabled = true; // Lock the field
-        });
-        
-        nameFields.forEach(f => {
-            if (name) f.value = name;
-        });
-
-        // 3. Show success UI
-        const statusTexts = document.querySelectorAll('#verificationStatus, #modalOtpStatus');
-        statusTexts.forEach(t => {
-            t.style.display = 'block';
-            t.textContent = "✅ Verified via WhatsApp (" + phone + ")";
-            t.style.color = "#25d366";
-        });
-
-        // 4. Hide verify buttons
-        const verifyBtns = document.querySelectorAll('#verifyWhatsAppBtn, #modalSendOtpBtn');
-        verifyBtns.forEach(b => b.style.display = 'none');
-        
-        console.log("OTPless Verification Success:", otplessUser);
-    } else {
-        console.error("OTPless Verification Failed:", otplessUser);
-        alert("Verification failed. Please try again.");
-    }
-};
 
 // Bootstrapped by js/bootstrap.js after partial includes load.
 
@@ -80,7 +34,7 @@ function initializeApp() {
     initEmailProtection();
     initNewsletterForm();
     initDynamicShareLinks();
-    initOTPless();
+
 }
 
 // Recompute floating layout on resize (debounced), bind only once
@@ -850,22 +804,7 @@ function initFirebaseOTP() {
     });
 }
 
-// ===== OTPless SYSTEM =====
-function initOTPless() {
-    const verifyBtns = document.querySelectorAll('#verifyWhatsAppBtn');
-    
-    verifyBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            if (typeof window.otplessInit === 'function') {
-                window.otplessInit();
-            } else if (window.OTPLessSignin) {
-                window.OTPLessSignin.initiate();
-            } else {
-                console.log("Initiating OTPless (default behavior)...");
-            }
-        });
-    });
-}
+
 
 // ===== CONTACT FORM =====
 // ===== FORM SYSTEM - Robust & Professional =====
@@ -968,16 +907,7 @@ function handleFormSubmission(e) {
     const submitBtn = form.querySelector('button[type="submit"]');
     const originalBtnHTML = submitBtn ? submitBtn.innerHTML : 'SUBMIT';
 
-    // 0. Verification check
-    if (!isPhoneVerified) {
-        alert("Please verify your phone number via OTP before submitting.");
-        const phoneField = document.getElementById('phoneNumber');
-        if (phoneField) {
-            phoneField.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            phoneField.focus();
-        }
-        return;
-    }
+
 
     // 0. Honeypot check
     if (formData.get('_gotcha')) {
@@ -1445,14 +1375,7 @@ function openBrochureModal() {
                     </div>
                     <div class="form-field">
                         <label for="modal-phone">Mobile Number</label>
-                        <div class="phone-input-group" style="display: flex; gap: 10px;">
-                            <input id="modal-phone" name="phone" type="tel" placeholder="10-digit mobile" required style="flex: 1;">
-                            <button type="button" id="verifyWhatsAppBtn" class="otp-btn" style="background: #25d366; color: white; border: none; padding: 0 15px; border-radius: 4px; font-size: 0.8rem; cursor: pointer; white-space: nowrap; display: flex; align-items: center; gap: 5px;">
-                                <i class="fab fa-whatsapp"></i>
-                                <span>VERIFY</span>
-                            </button>
-                        </div>
-                        <p id="modalOtpStatus" style="font-size: 0.7rem; margin-top: 5px; color: #666; display: none;">✅ Verified via WhatsApp</p>
+                        <input id="modal-phone" name="phone" type="tel" placeholder="10-digit mobile" required>
                     </div>
 
                     <!-- Hidden field to identify brochure requests -->
@@ -1480,13 +1403,7 @@ function openBrochureModal() {
         });
     });
 
-    // Modal Verify Button (Optional: Let it trigger OTPless if not using standard button)
-    const modalVerifyBtn = modal.querySelector('#verifyWhatsAppBtn');
-    if (modalVerifyBtn) {
-        modalVerifyBtn.addEventListener('click', () => {
-            if (window.otplessInit) window.otplessInit();
-        });
-    }
+
 
     const form = modal.querySelector('form');
     form.addEventListener('submit', (e) => {
