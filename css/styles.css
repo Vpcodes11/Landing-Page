@@ -6772,3 +6772,48 @@ label {
 .blog-footer-cta .resort-btn {
     min-width: 240px;
 }
+
+/* ========================================
+   FORM VERIFICATION & ANTI-SPAM STYLES
+   ======================================== */
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+.shake-animation {
+    animation: shake 0.3s ease-in-out 0s 2;
+}
+
+.phone-error-msg {
+    animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Success Modal Verification Enhancements */
+.verification-step {
+    border-left: 4px solid var(--primary-gold) !important;
+}
+
+.verified-download {
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;
+}
+
+.verified-download:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 10px 20px rgba(37, 211, 102, 0.3);
+}
+
+.direct-download-link {
+    transition: opacity 0.3s ease;
+}
+
+.direct-download-link:hover {
+    opacity: 1 !important;
+}

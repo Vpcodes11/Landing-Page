@@ -7,6 +7,56 @@
 let isLoading = true;
 let currentAmenityTab = 'clubhouse';
 let currentGalleryFilter = 'all';
+// Global Variables
+let isLoading = true;
+let currentAmenityTab = 'clubhouse';
+let currentGalleryFilter = 'all';
+let isPhoneVerified = false;
+
+/**
+ * OTPless Callback Function
+ * This is called automatically by the OTPless SDK after verification.
+ */
+window.otpless = (otplessUser) => {
+    if (otplessUser && otplessUser.status === "SUCCESS") {
+        const phone = otplessUser.phoneNumber;
+        const name = otplessUser.name;
+        
+        // 1. Mark as verified
+        isPhoneVerified = true;
+        
+        // 2. Fill the phone and name fields in any active form
+        const phoneFields = document.querySelectorAll('input[type="tel"], #phoneNumber, #modal-phone');
+        const nameFields = document.querySelectorAll('input[name="fullName"], input[name="name"], #modal-name');
+        
+        phoneFields.forEach(f => {
+            const cleanedPhone = phone.replace("+91", ""); // Strip India prefix for the input
+            f.value = cleanedPhone;
+            f.disabled = true; // Lock the field
+        });
+        
+        nameFields.forEach(f => {
+            if (name) f.value = name;
+        });
+
+        // 3. Show success UI
+        const statusTexts = document.querySelectorAll('#verificationStatus, #modalOtpStatus');
+        statusTexts.forEach(t => {
+            t.style.display = 'block';
+            t.textContent = "✅ Verified via WhatsApp (" + phone + ")";
+            t.style.color = "#25d366";
+        });
+
+        // 4. Hide verify buttons
+        const verifyBtns = document.querySelectorAll('#verifyWhatsAppBtn, #modalSendOtpBtn');
+        verifyBtns.forEach(b => b.style.display = 'none');
+        
+        console.log("OTPless Verification Success:", otplessUser);
+    } else {
+        console.error("OTPless Verification Failed:", otplessUser);
+        alert("Verification failed. Please try again.");
+    }
+};
 
 // Bootstrapped by js/bootstrap.js after partial includes load.
 
@@ -34,6 +84,7 @@ function initializeApp() {
     initEmailProtection();
     initNewsletterForm();
     initDynamicShareLinks();
+    initOTPless();
 }
 
 // Recompute floating layout on resize (debounced), bind only once
@@ -704,6 +755,122 @@ function closeLightbox(lightbox) {
     }, 300);
 }
 
+// ===== FIREBASE OTP SYSTEM =====
+function initFirebaseOTP() {
+    const sendBtn = document.getElementById('sendOtpBtn');
+    const verifyBtn = document.getElementById('verifyOtpBtn');
+    const phoneInput = document.getElementById('phoneNumber');
+    const otpSection = document.getElementById('otpSection');
+    const otpInput = document.getElementById('otpCode');
+    const otpStatus = document.getElementById('otpStatus');
+
+    // Reset verification if phone number changes
+    phoneInput.addEventListener('input', () => {
+        if (isPhoneVerified) {
+            isPhoneVerified = false;
+            otpSection.style.display = 'none';
+            otpStatus.textContent = "";
+            verifyBtn.style.display = 'block';
+            otpInput.disabled = false;
+            phoneInput.disabled = false;
+            sendBtn.style.display = 'block';
+            sendBtn.textContent = "SEND OTP";
+            
+            const inputGroup = document.querySelector('.phone-input-group');
+            if (inputGroup) {
+                inputGroup.style.border = "";
+            }
+        }
+    });
+
+    // Initialize reCAPTCHA
+    window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
+        'size': 'invisible',
+        'callback': (response) => {
+            // reCAPTCHA solved, allow signInWithPhoneNumber.
+        }
+    });
+
+    sendBtn.addEventListener('click', () => {
+        const phone = phoneInput.value;
+        if (!isProperPhone(phone)) {
+            alert("Please enter a valid 10-digit phone number first.");
+            return;
+        }
+
+        sendBtn.disabled = true;
+        sendBtn.textContent = "SENDING...";
+
+        const appVerifier = window.recaptchaVerifier;
+        const formatPhone = "+91" + phone.replace(/\D/g, ''); // Adding India prefix
+
+        firebase.auth().signInWithPhoneNumber(formatPhone, appVerifier)
+            .then((result) => {
+                confirmationResult = result;
+                otpSection.style.display = 'block';
+                otpStatus.textContent = "Code sent to +91 " + phone;
+                sendBtn.textContent = "RESEND";
+                sendBtn.disabled = false;
+            }).catch((error) => {
+                console.error("SMS Error:", error);
+                alert("Error sending SMS. Please check your number or try again later.");
+                sendBtn.disabled = false;
+                sendBtn.textContent = "RETRY";
+            });
+    });
+
+    verifyBtn.addEventListener('click', () => {
+        const code = otpInput.value;
+        if (code.length !== 6) {
+            alert("Please enter the 6-digit code.");
+            return;
+        }
+
+        verifyBtn.disabled = true;
+        verifyBtn.textContent = "VERIFYING...";
+
+        confirmationResult.confirm(code).then((result) => {
+            // Success
+            isPhoneVerified = true;
+            otpStatus.textContent = "✅ Phone number verified successfully!";
+            otpStatus.style.color = "#25d366";
+            verifyBtn.style.display = 'none';
+            otpInput.disabled = true;
+            phoneInput.disabled = true;
+            sendBtn.style.display = 'none';
+            
+            // Visual feedback on phone field
+            const inputGroup = document.querySelector('.phone-input-group');
+            if (inputGroup) {
+                inputGroup.style.border = "2px solid #25d366";
+                inputGroup.style.borderRadius = "4px";
+            }
+        }).catch((error) => {
+            console.error("Verification Error:", error);
+            alert("Invalid code. Please try again.");
+            verifyBtn.disabled = false;
+            verifyBtn.textContent = "VERIFY";
+        });
+    });
+}
+
+// ===== OTPless SYSTEM =====
+function initOTPless() {
+    const verifyBtns = document.querySelectorAll('#verifyWhatsAppBtn');
+    
+    verifyBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            if (typeof window.otplessInit === 'function') {
+                window.otplessInit();
+            } else if (window.OTPLessSignin) {
+                window.OTPLessSignin.initiate();
+            } else {
+                console.log("Initiating OTPless (default behavior)...");
+            }
+        });
+    });
+}
+
 // ===== CONTACT FORM =====
 // ===== FORM SYSTEM - Robust & Professional =====
 function initContactForm() {
@@ -736,6 +903,68 @@ function initContactForm() {
     });
 }
 
+/**
+ * Validates names to prevent short or purely numeric spam.
+ * @param {string} name 
+ * @returns {boolean}
+ */
+function isProperName(name) {
+    if (!name) return false;
+    const trimmed = name.trim();
+    
+    // 1. Minimum 3 characters
+    if (trimmed.length < 3) return false;
+    
+    // 2. Block names that are just numbers
+    if (/^\d+$/.test(trimmed)) return false;
+    
+    // 3. Block names with too many numbers (more than 2)
+    const digitCount = (trimmed.match(/\d/g) || []).length;
+    if (digitCount > 2) return false;
+
+    // 4. Block names with excessive special characters
+    if (/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]{3,}/.test(trimmed)) return false;
+
+    return true;
+}
+
+/**
+ * Validates Indian phone numbers and filters out common fake patterns.
+ * @param {string} phone 
+ * @returns {boolean}
+ */
+function isProperPhone(phone) {
+    // Check original input length to catch 48-digit spam before cleaning
+    if (phone.length > 20) return false;
+
+    const cleaned = phone.replace(/\D/g, '');
+    
+    // 1. Must be 10 digits
+    if (cleaned.length !== 10) return false;
+    
+    // 2. Must start with 6, 7, 8, or 9 (Indian mobile standards)
+    if (!/^[6-9]/.test(cleaned)) return false;
+    
+    // 3. Block repeating digits (e.g., 9999999999, 0000000000)
+    if (/^(\d)\1{9}$/.test(cleaned)) return false;
+
+    // 4. Block excessive repetition of any single digit (more than 6 times)
+    for (let i = 0; i <= 9; i++) {
+        const count = (cleaned.match(new RegExp(i, "g")) || []).length;
+        if (count > 6) return false;
+    }
+    
+    // 5. Block sequential digits
+    const sequential = "01234567890876543210";
+    if (sequential.includes(cleaned)) return false;
+    
+    // 6. Block specific common fakes
+    const fakes = ['1234567890', '1234567891', '1122334455', '9876543210', '9876543211'];
+    if (fakes.includes(cleaned)) return false;
+
+    return true;
+}
+
 function handleFormSubmission(e) {
     e.preventDefault();
     const form = e.target;
@@ -743,15 +972,86 @@ function handleFormSubmission(e) {
     const submitBtn = form.querySelector('button[type="submit"]');
     const originalBtnHTML = submitBtn ? submitBtn.innerHTML : 'SUBMIT';
 
+    // 0. Verification check
+    if (!isPhoneVerified) {
+        alert("Please verify your phone number via OTP before submitting.");
+        const phoneField = document.getElementById('phoneNumber');
+        if (phoneField) {
+            phoneField.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            phoneField.focus();
+        }
+        return;
+    }
+
+    // 0. Honeypot check
+    if (formData.get('_gotcha')) {
+        console.warn("Spam detected via honeypot.");
+        form.reset();
+        return;
+    }
+
     // 1. Gather fields generically (handle different field names across pages)
     const data = {
         name: formData.get('fullName') || formData.get('name') || 'Guest',
-        phone: formData.get('phoneNumber') || formData.get('phone') || 'Not provided',
+        phone: formData.get('phoneNumber') || formData.get('phone') || '',
         email: formData.get('emailAddress') || formData.get('email') || 'Not provided',
         interest: formData.get('propertyInterest') || formData.get('budget') || 'General Interest',
         message: formData.get('message') || formData.get('requirement') || 'No additional message',
         context: form.getAttribute('data-context') || 'Website Consultation'
     };
+
+    // 1.5. Strict Validation
+    let hasError = false;
+    
+    // Validate Phone
+    if (!isProperPhone(data.phone)) {
+        const phoneField = form.querySelector('input[type="tel"]');
+        if (phoneField) {
+            phoneField.style.borderColor = '#ff4d4d';
+            phoneField.classList.add('shake-animation');
+            
+            let errorMsg = form.querySelector('.phone-error-msg');
+            if (!errorMsg) {
+                errorMsg = document.createElement('div');
+                errorMsg.className = 'phone-error-msg';
+                errorMsg.style.cssText = 'color: #ff4d4d; font-size: 0.75rem; margin-top: 5px; font-weight: 600;';
+                phoneField.parentElement.appendChild(errorMsg);
+            }
+            errorMsg.textContent = 'Please enter a valid 10-digit number.';
+            
+            setTimeout(() => {
+                phoneField.classList.remove('shake-animation');
+                phoneField.style.borderColor = '';
+            }, 1000);
+        }
+        hasError = true;
+    }
+
+    // Validate Name
+    if (!isProperName(data.name)) {
+        const nameField = form.querySelector('input[name="fullName"], input[name="name"]');
+        if (nameField) {
+            nameField.style.borderColor = '#ff4d4d';
+            nameField.classList.add('shake-animation');
+            
+            let errorMsg = form.querySelector('.name-error-msg');
+            if (!errorMsg) {
+                errorMsg = document.createElement('div');
+                errorMsg.className = 'name-error-msg';
+                errorMsg.style.cssText = 'color: #ff4d4d; font-size: 0.75rem; margin-top: 5px; font-weight: 600;';
+                nameField.parentElement.appendChild(errorMsg);
+            }
+            errorMsg.textContent = 'Please enter a valid name (min 3 characters).';
+            
+            setTimeout(() => {
+                nameField.classList.remove('shake-animation');
+                nameField.style.borderColor = '';
+            }, 1000);
+        }
+        hasError = true;
+    }
+
+    if (hasError) return;
 
     // 2. Format WhatsApp Message
     const details = [
@@ -780,7 +1080,7 @@ function handleFormSubmission(e) {
 
     if (isDuplicate) {
         setTimeout(() => {
-            showFormSuccessMessage(data.name, whatsappUrl, form.hasAttribute('data-brochure'));
+            window.location.href = 'thank-you.html';
             form.reset();
             if (submitBtn) {
                 submitBtn.innerHTML = originalBtnHTML;
@@ -817,11 +1117,8 @@ function handleFormSubmission(e) {
         console.error("Network error during lead capture:", error);
     })
     .finally(() => {
-        // Don't redirect for brochure downloads — the modal handles the UX
-        if (!form.hasAttribute('data-brochure')) {
-            // Redirect to thank-you.html for Google Ads Conversion Tracking
-            window.location.href = 'thank-you.html';
-        }
+        // Redirect to thank-you.html for tracking
+        window.location.href = 'thank-you.html';
         
         // Form reset and button state reset
         form.reset();
@@ -841,6 +1138,13 @@ function initNewsletterForm() {
             const input = form.querySelector('.newsletter-input');
             const submitBtn = form.querySelector('.newsletter-submit');
             const originalText = submitBtn.textContent;
+
+            // Honeypot check
+            const formData = new FormData(form);
+            if (formData.get('_gotcha')) {
+                form.reset();
+                return;
+            }
 
             if (!input.value) return;
 
@@ -913,26 +1217,39 @@ function showFormSuccessMessage(name, whatsappUrl, isBrochure = false) {
     const ctaText = isBrochure ? 'Download via WhatsApp' : 'Chat via WhatsApp';
     const brochureBtn = isBrochure 
         ? `<div class="brochure-download-options">
-                <a href="TATVA_Brochure_compressed.pdf" download="TATVA_Brochure_compressed.pdf" class="success-btn brochure-btn" style="background: var(--luxury-black); color: white;">
-                    <i class="fas fa-file-download"></i>
-                    <span>Download Brochure (~6MB)</span>
+                <div class="verification-step" style="background: rgba(212, 175, 55, 0.05); border: 1px dashed var(--primary-gold); padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+                    <p style="font-size: 0.85rem; color: #333; margin-bottom: 10px; font-weight: 600;">
+                        <i class="fas fa-shield-alt" style="color: var(--primary-gold);"></i> Verification Required
+                    </p>
+                    <p style="font-size: 0.75rem; color: #666; line-height: 1.4;">To prevent automated downloads, please click the button below to verify your number on WhatsApp and receive the high-resolution brochure link.</p>
+                </div>
+                
+                <a href="${whatsappUrl}" target="_blank" class="success-btn whatsapp-btn verified-download" style="background: #25d366; color: white; width: 100%; justify-content: center;">
+                    <i class="fab fa-whatsapp"></i>
+                    <span>Get Brochure via WhatsApp</span>
                 </a>
-                <p style="font-size: 0.75rem; color: #666; margin-top: 8px;">Note: High-quality visuals may take a moment to download.</p>
+
+                <div class="direct-download-container" style="margin-top: 15px; opacity: 0.6; transition: opacity 0.5s;">
+                    <a href="TATVA_Brochure_compressed.pdf" download="TATVA_Brochure_compressed.pdf" class="direct-download-link" style="font-size: 0.75rem; color: #666; text-decoration: underline; display: none;">
+                        Download directly instead (Low Quality)
+                    </a>
+                </div>
            </div>`
         : '';
 
     modal.innerHTML = `
         <div class="success-content">
-            <i class="fas fa-check-circle"></i>
+            <i class="fas fa-check-circle" style="color: #25d366;"></i>
             <h4>${title}</h4>
             <p>${subtext}</p>
             <div class="success-actions">
                 ${brochureBtn}
+                ${!isBrochure ? `
                 <a href="${whatsappUrl}" target="_blank" class="success-btn whatsapp-btn">
                     <i class="fab fa-whatsapp"></i>
                     <span>${ctaText}</span>
-                </a>
-                <button class="success-btn close-btn">
+                </a>` : ''}
+                <button class="success-btn close-btn" style="margin-top: 10px;">
                     <span>Back to Website</span>
                 </button>
             </div>
@@ -940,6 +1257,18 @@ function showFormSuccessMessage(name, whatsappUrl, isBrochure = false) {
     `;
     
     document.body.appendChild(modal);
+    
+    // Show direct download link after 7 seconds delay
+    if (isBrochure) {
+        setTimeout(() => {
+            const directLink = modal.querySelector('.direct-download-link');
+            const container = modal.querySelector('.direct-download-container');
+            if (directLink) {
+                directLink.style.display = 'inline-block';
+                container.style.opacity = '1';
+            }
+        }, 7000);
+    }
     
     // Trigger entrance transition
     setTimeout(() => modal.classList.add('active'), 10);
@@ -1110,18 +1439,30 @@ function openBrochureModal() {
                     <p class="sub-text">Please provide your contact details to start the download instantly.</p>
                 </div>
                 <form class="lead-form consultation-form" data-context="Brochure Download" data-brochure="true">
+                    <!-- Honeypot Field to prevent spam -->
+                    <div style="display:none !important;">
+                        <input type="text" name="_gotcha" tabindex="-1" autocomplete="off">
+                    </div>
                     <div class="form-field">
                         <label for="modal-name">Full Name</label>
                         <input id="modal-name" name="name" type="text" placeholder="Your Name" required>
                     </div>
                     <div class="form-field">
                         <label for="modal-phone">Mobile Number</label>
-                        <input id="modal-phone" name="phone" type="tel" placeholder="Your Number" required>
+                        <div class="phone-input-group" style="display: flex; gap: 10px;">
+                            <input id="modal-phone" name="phone" type="tel" placeholder="10-digit mobile" required style="flex: 1;">
+                            <button type="button" id="verifyWhatsAppBtn" class="otp-btn" style="background: #25d366; color: white; border: none; padding: 0 15px; border-radius: 4px; font-size: 0.8rem; cursor: pointer; white-space: nowrap; display: flex; align-items: center; gap: 5px;">
+                                <i class="fab fa-whatsapp"></i>
+                                <span>VERIFY</span>
+                            </button>
+                        </div>
+                        <p id="modalOtpStatus" style="font-size: 0.7rem; margin-top: 5px; color: #666; display: none;">✅ Verified via WhatsApp</p>
                     </div>
+
                     <!-- Hidden field to identify brochure requests -->
                     <input type="hidden" name="requirement" value="Brochure Download">
                     
-                    <button type="submit" class="form-submit">
+                    <button type="submit" class="form-submit" id="modalSubmitBtn">
                         <span>START DOWNLOAD NOW</span>
                         <i class="fas fa-file-download"></i>
                     </button>
@@ -1143,24 +1484,39 @@ function openBrochureModal() {
         });
     });
 
+    // Modal Verify Button (Optional: Let it trigger OTPless if not using standard button)
+    const modalVerifyBtn = modal.querySelector('#verifyWhatsAppBtn');
+    if (modalVerifyBtn) {
+        modalVerifyBtn.addEventListener('click', () => {
+            if (window.otplessInit) window.otplessInit();
+        });
+    }
+
     const form = modal.querySelector('form');
     form.addEventListener('submit', (e) => {
-        // 1. Start the lead capture process
+        // Prevent default browser behavior
+        e.preventDefault();
+
+        // 1. Validate phone number first
+        const phone = form.querySelector('input[name="phone"]').value;
+        if (!isProperPhone(phone)) {
+            // handleFormSubmission will handle the visual error
+            handleFormSubmission(e); 
+            return;
+        }
+
+        // 2. Start the lead capture process
         handleFormSubmission(e);
         
-        // 2. Trigger the actual file download immediately
-        const link = document.createElement('a');
-        link.href = 'TATVA_Brochure_compressed.pdf';
-        link.download = 'TATVA_Brochure_compressed.pdf';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-
-        // 3. Close the modal after a short delay
+        // 3. DO NOT trigger download immediately. 
+        // The handleFormSubmission will trigger showFormSuccessMessage(data.name, whatsappUrl, true)
+        // which will have the VERIFIED download options.
+        
+        // 4. Close the modal after a short delay to transition to the success screen
         setTimeout(() => {
             modal.classList.remove('active');
             setTimeout(() => modal.remove(), 500);
-        }, 3000);
+        }, 1500);
     });
 
     // Close handlers

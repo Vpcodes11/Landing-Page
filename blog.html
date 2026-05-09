@@ -76,6 +76,16 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <noscript><img height="1" width="1" style="display:none"
     src="https://www.facebook.com/tr?id=XXXXXXXXXXXXXXX&ev=PageView&noscript=1"
     /></noscript>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18101222728"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'AW-18101222728');
+    </script>
 </head>
 
 <body>
@@ -166,6 +176,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 <h3 class="newsletter-title">Stay Ahead of the Market</h3>
                 <p class="newsletter-text">Join 5,000+ investors who receive our exclusive weekly insights on Ahmedabad's high-growth real estate corridors.</p>
                 <form class="newsletter-form">
+                    <!-- Honeypot Field to prevent spam -->
+                    <div style="display:none !important;">
+                        <input type="text" name="_gotcha" tabindex="-1" autocomplete="off">
+                    </div>
                     <input type="email" class="newsletter-input" placeholder="Your email address" required>
                     <button type="submit" class="newsletter-submit">SUBSCRIBE</button>
                 </form>
@@ -180,7 +194,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js" defer></script>
     <script src="js/includes.min.js" defer></script>
     <script src="js/modules.min.js" defer></script>
-    <script src="js/script.min.js" defer></script>
+    <script src="js/script.js" defer></script>
     <script src="js/bootstrap.min.js" defer></script>
 </body>
 

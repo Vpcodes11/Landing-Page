@@ -80,6 +80,26 @@
             box-shadow: 0 10px 20px rgba(212, 175, 55, 0.2);
         }
     </style>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18101222728"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'AW-18101222728');
+    </script>
+    
+    <!-- Event snippet for Submit lead form conversion page -->
+    <script>
+    if (!sessionStorage.getItem('conversion_tracked')) {
+        gtag('event', 'conversion', {
+            'send_to': 'AW-18101222728/8vQ9CMDBg6UcEMj6qrdD'
+        });
+        sessionStorage.setItem('conversion_tracked', 'true');
+    }
+    </script>
 </head>
 
 <body>
