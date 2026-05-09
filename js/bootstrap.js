@@ -1,6 +1,6 @@
 // Bootstraps the app after HTML partials (nav/footer) are injected.
 
-document.addEventListener('DOMContentLoaded', async () => {
+async function startBootstrap() {
     try {
         await (window.__includesReady || Promise.resolve());
         await (window.__modulesReady || Promise.resolve());
@@ -9,4 +9,10 @@ document.addEventListener('DOMContentLoaded', async () => {
             initializeApp();
         }
     }
-});
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', startBootstrap);
+} else {
+    startBootstrap();
+}
