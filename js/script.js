@@ -8,6 +8,16 @@ let isLoading = true;
 let currentAmenityTab = 'clubhouse';
 let currentGalleryFilter = 'all';
 
+// Lead Capture Configuration
+const LEAD_CONFIG = {
+    email_receiver: 'tatvabytradeprop@gmail.com', // UNLIMITED: Your leads will go here
+    telegram: {
+        enabled: false, // Set to true later if you want phone alerts
+        bot_token: '', 
+        chat_id: ''
+    }
+};
+
 // Bootstrapped by js/bootstrap.js after partial includes load.
 
 // Initialize Application
@@ -1016,43 +1026,90 @@ function handleFormSubmission(e) {
         return;
     }
 
-    // 4. Submit to Email (Formspree) & Redirect logic
-    // We send to email first, then show the "Choice" modal.
-    const emailEndpoint = "https://formspree.io/f/mdaygjlv"; 
+    // 4. Submit to Lead Capture Channels
+    const submissionPromises = [];
 
-    fetch(emailEndpoint, {
-        method: 'POST',
-        body: formData,
-        headers: {
-            'Accept': 'application/json'
-        }
-    })
-    .then(response => {
-        if (response.ok) {
-            // Cache this submission to prevent duplicates for 24 hours
-            localStorage.setItem('last_tatva_lead', JSON.stringify({
-                name: data.name,
-                phone: data.phone,
-                time: new Date().getTime()
-            }));
-        } else {
-            console.error("Email capture failed. Ensure your Formspree ID is correct.");
-        }
+    // Channel A: FormSubmit (UNLIMITED & FREE)
+    const fsData = new FormData();
+    fsData.append("name", data.name);
+    fsData.append("phone", data.phone);
+    fsData.append("email", data.email);
+    fsData.append("interest", data.interest);
+    fsData.append("message", data.message);
+    fsData.append("context", data.context);
+    fsData.append("_subject", `New Lead: ${data.name} (${data.context})`);
+    fsData.append("_template", "table"); // Professional table layout in email
+    fsData.append("_captcha", "false"); // We already have custom validation
+
+    submissionPromises.push(
+        fetch(`https://formsubmit.co/ajax/${LEAD_CONFIG.email_receiver}`, {
+            method: "POST",
+            body: fsData
+        })
+    );
+
+    // Channel B: Telegram (Real-time & Free)
+    if (LEAD_CONFIG.telegram.enabled && LEAD_CONFIG.telegram.bot_token) {
+        submissionPromises.push(sendTelegramNotification(data));
+    }
+
+    // Process all submissions
+    Promise.all(submissionPromises)
+    .then(results => {
+        // Cache this submission to prevent duplicates
+        localStorage.setItem('last_tatva_lead', JSON.stringify({
+            name: data.name,
+            phone: data.phone,
+            time: new Date().getTime()
+        }));
+        
+        console.log("Lead captured successfully across enabled channels.");
     })
     .catch(error => {
-        console.error("Network error during lead capture:", error);
+        console.error("One or more lead capture channels failed:", error);
     })
     .finally(() => {
-        // Redirect to thank-you.html for tracking
-        window.location.href = 'thank-you.html';
+        // 5. Show Premium Success UI
+        const isBrochure = form.getAttribute('data-brochure') === 'true' || data.context.includes('Brochure');
         
-        // Form reset and button state reset
-        form.reset();
+        // Hide loading state
         if (submitBtn) {
             submitBtn.innerHTML = originalBtnHTML;
             submitBtn.disabled = false;
         }
+
+        // Show choice modal instead of immediate redirect
+        showFormSuccessMessage(data.name, whatsappUrl, isBrochure);
+        
+        // Reset form
+        form.reset();
     });
+}
+
+/**
+ * Sends a notification to Telegram Bot
+ */
+async function sendTelegramNotification(data) {
+    const text = `🚀 *New Lead: ${data.context}*\n\n` +
+                 `👤 *Name:* ${data.name}\n` +
+                 `📞 *Phone:* ${data.phone}\n` +
+                 `📧 *Email:* ${data.email}\n` +
+                 `💰 *Interest:* ${data.interest}\n` +
+                 `💬 *Message:* ${data.message}`;
+
+    try {
+        await fetch(`https://api.telegram.org/bot${LEAD_CONFIG.telegram.bot_token}/sendMessage`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                chat_id: LEAD_CONFIG.telegram.chat_id,
+                text: text,
+                parse_mode: 'Markdown'
+            })
+        });
+    } catch (e) {
+        console.error("Telegram notification failed:", e);
+    }
 }
 
 // ===== NEWSLETTER SYSTEM =====
