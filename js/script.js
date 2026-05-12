@@ -1212,9 +1212,9 @@ function showFormSuccessMessage(name, whatsappUrl, isBrochure = false) {
                     <span>Get Brochure via WhatsApp</span>
                 </a>
 
-                <div class="direct-download-container" style="margin-top: 15px; opacity: 0.6; transition: opacity 0.5s;">
-                    <a href="TATVA_Brochure_compressed.pdf" download="TATVA_Brochure_compressed.pdf" class="direct-download-link" style="font-size: 0.75rem; color: #666; text-decoration: underline; display: none;">
-                        Download directly instead (Low Quality)
+                <div class="direct-download-container" style="margin-top: 15px;">
+                    <a href="TATVA_Brochure_compressed.pdf" download="TATVA_Brochure_compressed.pdf" class="direct-download-link" style="font-size: 0.8rem; color: var(--primary-gold); text-decoration: underline; font-weight: 600;">
+                        <i class="fas fa-file-pdf"></i> Click here if download doesn't start automatically
                     </a>
                 </div>
            </div>`
@@ -1241,16 +1241,17 @@ function showFormSuccessMessage(name, whatsappUrl, isBrochure = false) {
     
     document.body.appendChild(modal);
     
-    // Show direct download link after 7 seconds delay
+    // Handle Brochure Download
     if (isBrochure) {
-        setTimeout(() => {
-            const directLink = modal.querySelector('.direct-download-link');
-            const container = modal.querySelector('.direct-download-container');
-            if (directLink) {
-                directLink.style.display = 'inline-block';
-                container.style.opacity = '1';
-            }
-        }, 7000);
+        // 1. Trigger automatic download
+        const downloadLink = document.createElement('a');
+        downloadLink.href = 'TATVA_Brochure_compressed.pdf';
+        downloadLink.download = 'TATVA_Brochure_compressed.pdf';
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        document.body.removeChild(downloadLink);
+        
+        console.log("Brochure download triggered automatically.");
     }
     
     // Trigger entrance transition
